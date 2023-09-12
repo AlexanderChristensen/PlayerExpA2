@@ -14,6 +14,7 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] GameObject grapplePointModel;
 
     LineRenderer grappleLine;
+    SpringJoint springJoint;
 
     Rigidbody rb;
 
@@ -67,10 +68,30 @@ public class GrappleMovement : MonoBehaviour
             if (grappling)
             {
                 DrawLine();
+
+                if (!zipping)
+                { 
+                    if (springJoint == null)
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    if (springJoint != null)
+                    {
+                        Destroy(springJoint);
+                    }
+                }  
             }
             else
             {
                 grappleLine.enabled = false;
+
+                if (GetComponent<HingeJoint>() != null)
+                {
+                    Destroy(GetComponent<HingeJoint>());
+                }
             }
         }
     }
@@ -114,6 +135,11 @@ public class GrappleMovement : MonoBehaviour
 
         grappleLine.SetPosition(0, transform.position);
         grappleLine.SetPosition(1, grapplePointDirection);
+    }
+
+    void AddSpringJoint()
+    {
+        springJoint = gameObject.AddComponent<SpringJoint>();
     }
 
     public void Freeze()
