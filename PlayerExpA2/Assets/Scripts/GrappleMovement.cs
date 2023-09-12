@@ -10,16 +10,19 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float pullForce;
     [SerializeField] float pullAcceleration;
     [SerializeField] float grappleRange;
+    [SerializeField] float springStrength;
+    [SerializeField] float damperStrength;
 
     [SerializeField] GameObject grapplePointModel;
 
     LineRenderer grappleLine;
-    SpringJoint springJoint;
+    ConfigurableJoint joint;
 
     Rigidbody rb;
 
     bool grappling;
     bool zipping;
+    bool jointSet;
 
     Vector3 grapplePointDirection;
     float grapplePointDistance;
@@ -28,12 +31,22 @@ public class GrappleMovement : MonoBehaviour
 
     public bool canMove;
 
+    SoftJointLimitSpring springLimit;
+    SoftJointLimit distLimit;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         grappleLine = GetComponent<LineRenderer>();
+        joint = GetComponent<ConfigurableJoint>();
+
+        SoftJointLimit distLimit = new SoftJointLimit();
 
         canMove = true;
+
+        springLimit = joint.linearLimitSpring;
+
+        distLimit = joint.linearLimit;
     }
 
 
@@ -71,16 +84,16 @@ public class GrappleMovement : MonoBehaviour
 
                 if (!zipping)
                 { 
-                    if (springJoint == null)
+                    if (!jointSet)
                     {
-                        
+                        ActivateJoint();
                     }
                 }
                 else
                 {
-                    if (springJoint != null)
+                    if (jointSet)
                     {
-                        Destroy(springJoint);
+                        DisconnectJoint();
                     }
                 }  
             }
@@ -88,9 +101,9 @@ public class GrappleMovement : MonoBehaviour
             {
                 grappleLine.enabled = false;
 
-                if (GetComponent<HingeJoint>() != null)
+                if (jointSet)
                 {
-                    Destroy(GetComponent<HingeJoint>());
+                    DisconnectJoint();
                 }
             }
         }
@@ -103,11 +116,6 @@ public class GrappleMovement : MonoBehaviour
             float appliedPullForce = Mathf.Lerp(0, pullForce, pullAcceleration);
 
             rb.AddForce((grapplePointDirection - transform.position).normalized * appliedPullForce);
-        }
-
-        if (grappling && !zipping)
-        {
-
         }
 
     }
@@ -137,9 +145,38 @@ public class GrappleMovement : MonoBehaviour
         grappleLine.SetPosition(1, grapplePointDirection);
     }
 
-    void AddSpringJoint()
+    void ActivateJoint()
     {
-        springJoint = gameObject.AddComponent<SpringJoint>();
+        grapplePointDistance = Vector3.Distance(transform.position, grappleInstance.transform.position);
+
+        joint.connectedBody = grappleInstance.GetComponent<Rigidbody>();
+        joint.anchor = grapplePointDirection;
+
+        springLimit.spring = 0.1f;
+
+        distLimit.limit = grapplePointDistance;
+        joint.linearLimit = distLimit;
+
+        joint.xMotion = ConfigurableJointMotion.Limited;
+        joint.yMotion = ConfigurableJointMotion.Limited;
+        joint.zMotion = ConfigurableJointMotion.Limited;
+
+
+        Debug.Log(distLimit.limit);
+        jointSet = true;
+    }
+
+    void DisconnectJoint()
+    {
+        joint.xMotion = ConfigurableJointMotion.Free;
+        joint.yMotion = ConfigurableJointMotion.Free;
+        joint.zMotion = ConfigurableJointMotion.Free;
+
+        springLimit.spring = 0;
+
+        distLimit.limit = 0;
+
+        jointSet = false;
     }
 
     public void Freeze()
@@ -156,5 +193,10 @@ public class GrappleMovement : MonoBehaviour
     public void ContinueMovement()
     {
         canMove = true;
+    }
+
+    private void OnJointBreak(float breakForce)
+    {
+        Debug.Log("joint broke");
     }
 }
