@@ -11,17 +11,26 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float pullAcceleration;
     [SerializeField] float grappleRange;
 
+    [SerializeField] GameObject grapplePointModel;
+
+    LineRenderer grappleLine;
+
     Rigidbody rb;
 
     bool grappling;
+    bool zipping;
 
     Vector3 grapplePointDirection;
+    float grapplePointDistance;
+
+    GameObject grappleInstance;
 
     public bool canMove;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        grappleLine = GetComponent<LineRenderer>();
 
         canMove = true;
     }
@@ -42,18 +51,44 @@ public class GrappleMovement : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 grappling = false;
+
+                Destroy(grappleInstance);
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                zipping = true;
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                zipping = false;
+            }
+
+            if (grappling)
+            {
+                DrawLine();
+            }
+            else
+            {
+                grappleLine.enabled = false;
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (grappling)
+        if (zipping & grappling)
         {
             float appliedPullForce = Mathf.Lerp(0, pullForce, pullAcceleration);
 
             rb.AddForce((grapplePointDirection - transform.position).normalized * appliedPullForce);
         }
+
+        if (grappling && !zipping)
+        {
+
+        }
+
     }
 
 
@@ -66,8 +101,19 @@ public class GrappleMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit, grappleRange, grappleable))
         {
             grapplePointDirection = hit.point;
+
+            grappleInstance = Instantiate(grapplePointModel, grapplePointDirection, Quaternion.identity);
+
             grappling = true;
         }
+    }
+
+    void DrawLine()
+    {
+        grappleLine.enabled = true;
+
+        grappleLine.SetPosition(0, transform.position);
+        grappleLine.SetPosition(1, grapplePointDirection);
     }
 
     public void Freeze()
