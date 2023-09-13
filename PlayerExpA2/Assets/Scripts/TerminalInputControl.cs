@@ -207,6 +207,11 @@ public class TerminalInputControl : MonoBehaviour
 
             onlinePowerDraw = totalPowerDraw;
         }
+
+        if (terminalData.cellPower.Count == 0) 
+        {
+            onlinePowerDraw = 0;
+        }
     }
 
     void UpdateHubCellDraw()

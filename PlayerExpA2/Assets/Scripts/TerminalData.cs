@@ -64,7 +64,7 @@ public class TerminalData : MonoBehaviour
             unconnectedSystems.Add(cellSysConnection[cellIndex]);
             cellSysConnection[cellIndex] = "unconnected";
 
-            cellPower[cellIndex] = 0;
+            cellPower.RemoveAt(cellIndex);
         }
     }
 }
