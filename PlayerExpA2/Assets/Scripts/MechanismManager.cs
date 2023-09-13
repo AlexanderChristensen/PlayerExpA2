@@ -138,7 +138,7 @@ public class MechanismManager : MonoBehaviour
         {
             if (sheilds > 0)
             {
-                sheilds -= Random.Range(1, 3);
+                sheilds -= Random.Range(3, 8);
                  
                 if (sheilds < 0)
                 {
@@ -148,7 +148,12 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                shipHealth -= Random.Range(1, 3);
+                shipHealth -= Random.Range(3, 8);
+
+                if (shipHealth <= 0)
+                {
+                    SceneManager.LoadScene("LoseScreen");
+                }
             }
 
             asteroidHitTimer = 0;
@@ -188,6 +193,7 @@ public class MechanismManager : MonoBehaviour
         else
         {
             oxygenQuality = 0;
+            SceneManager.LoadScene("LoseScreen");
         }
     }
 

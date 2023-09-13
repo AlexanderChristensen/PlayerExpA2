@@ -17,6 +17,12 @@ public class Menu : MonoBehaviour
         {
             menuOverlay.SetActive(false);
         }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
     void Update()
     {
@@ -64,7 +70,6 @@ public class Menu : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        menuOverlay.SetActive(false);
         Time.timeScale = 1f;
 
         SceneManager.LoadScene("MainMenu");
