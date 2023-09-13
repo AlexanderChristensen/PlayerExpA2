@@ -154,7 +154,7 @@ public class GrappleMovement : MonoBehaviour
 
         springLimit.spring = 0.1f;
 
-        distLimit.limit = grapplePointDistance;
+        distLimit.limit = 100000;
         joint.linearLimit = distLimit;
 
         joint.xMotion = ConfigurableJointMotion.Limited;
