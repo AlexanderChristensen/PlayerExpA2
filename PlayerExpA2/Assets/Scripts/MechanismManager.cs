@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class MechanismManager : MonoBehaviour
 {
@@ -111,6 +112,11 @@ public class MechanismManager : MonoBehaviour
         for (int i = 0; i < hubTerminal.cellBatteryAmount.Count; i++)
         {
             hubTerminal.cellBatteryAmount[i] -= hubTerminal.cellPowerDraw[i];
+
+            if (hubTerminal.cellBatteryAmount[i] <= 0)
+            {
+                hubTerminal.cellBatteryAmount[i] = 0;
+            }
         }
 
         shipPower = 0;
@@ -118,6 +124,11 @@ public class MechanismManager : MonoBehaviour
         foreach (float cell in hubTerminal.cellBatteryAmount)
         {
             shipPower += cell;
+        }
+
+        if (shipPower <= 0) 
+        {
+            SceneManager.LoadScene("LoseScreen");
         }
     }
 
@@ -206,12 +217,12 @@ public class MechanismManager : MonoBehaviour
             else
             {
                 oxygenQuality = oxygenQualityTotal;
-                Debug.Log("You completed the experiment!");
+                SceneManager.LoadScene("WinScreen");
             }
         }
         else
         {
-            Debug.Log("You completed the experiment!");
+            SceneManager.LoadScene("WinScreen");
         }
     }
 }

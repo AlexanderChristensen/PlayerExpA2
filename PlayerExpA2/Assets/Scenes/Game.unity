@@ -1037,7 +1037,7 @@ MonoBehaviour:
   cellSysConnection: []
   cellPower: []
   unconnectedSystems: []
-  batteryCellCount: 8
+  batteryCellCount: 2
   terminals:
   - {fileID: 1852855398}
   - {fileID: 1284590795}
@@ -9374,7 +9374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30dca3d745958fa49bdf0fff83504107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipPowerTotal: 80
+  shipPowerTotal: 50
   oxygenQualityTotal: 200
   sheildsTotal: 50
   shipHealthTotal: 50
