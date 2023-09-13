@@ -30,6 +30,8 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
 
         grappleMovement.Freeze();
         grappleMovement.HaltMovement();
+
+        Time.timeScale = 0;
     }
 
     public void Exit()
@@ -39,5 +41,7 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
         interacting = false;
 
         grappleMovement.ContinueMovement();
+
+        Time.timeScale = 1;
     }
 }
