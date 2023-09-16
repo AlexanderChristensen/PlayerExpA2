@@ -269,7 +269,7 @@ Rigidbody:
   m_GameObject: {fileID: 23356833}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.5
+  m_Drag: 0.3
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -1854,6 +1854,10 @@ PrefabInstance:
       propertyPath: numberOfSystems
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: mechanismManager
+      value: 
+      objectReference: {fileID: 2100409951}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 
@@ -1866,6 +1870,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 23356833}
+    - target: {fileID: 7698571771326087014, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: openPanel
+      value: 
+      objectReference: {fileID: 121712112}
     - target: {fileID: 7698571771326087015, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -4835,6 +4843,10 @@ PrefabInstance:
       propertyPath: numberOfSystems
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: mechanismManager
+      value: 
+      objectReference: {fileID: 2100409951}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 
@@ -4847,6 +4859,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 23356833}
+    - target: {fileID: 7698571771326087014, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: openPanel
+      value: 
+      objectReference: {fileID: 121712112}
     - target: {fileID: 7698571771326087015, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -10940,6 +10956,10 @@ PrefabInstance:
       propertyPath: numberOfSystems
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: mechanismManager
+      value: 
+      objectReference: {fileID: 2100409951}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 
@@ -10952,6 +10972,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 23356833}
+    - target: {fileID: 7698571771326087014, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: openPanel
+      value: 
+      objectReference: {fileID: 121712112}
     - target: {fileID: 7698571771326087015, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_RootOrder
       value: 4

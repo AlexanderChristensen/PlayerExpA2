@@ -30,16 +30,16 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
         {
             terminalCanvas.SetActive(true);
             openPanel.SetBool("Open", false);
+        }
 
-            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState"))
-            {
-                Time.timeScale = 0;
-            }
+        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && interacting)
+        {
+            Time.timeScale = 0;
+        }
 
-            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose"))
-            {
-                openPanel.SetBool("Close", false);
-            }
+        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose") && !interacting)
+        {
+            openPanel.SetBool("Close", false);
         }
     }
 
