@@ -8,6 +8,8 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
     [SerializeField] GameObject terminalCanvas;
     [SerializeField] GameObject player;
 
+    [SerializeField] Animator openPanel;
+
     GrappleMovement grappleMovement;
 
     public bool interacting;
@@ -22,16 +24,32 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
         grappleMovement = player.GetComponent<GrappleMovement>();
     }
 
+    void Update()
+    {
+        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("FinishedScreen"))
+        {
+            terminalCanvas.SetActive(true);
+            openPanel.SetBool("Open", false);
+
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState"))
+            {
+                Time.timeScale = 0;
+            }
+        }
+    }
+
     public void Interact()
     {
-        terminalCanvas.SetActive(true);
+        if (!interacting) 
+        {
+            openPanel.SetBool("Open", true);
 
-        interacting = true;
 
-        grappleMovement.Freeze();
-        grappleMovement.HaltMovement();
+            interacting = true;
 
-        Time.timeScale = 0;
+            grappleMovement.Freeze();
+            grappleMovement.HaltMovement();
+        }
     }
 
     public void Exit()
