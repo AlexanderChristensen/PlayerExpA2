@@ -35,6 +35,11 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
             {
                 Time.timeScale = 0;
             }
+
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose"))
+            {
+                openPanel.SetBool("Close", false);
+            }
         }
     }
 
@@ -61,5 +66,7 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
         grappleMovement.ContinueMovement();
 
         Time.timeScale = 1;
+
+        openPanel.SetBool("Close", true);
     }
 }
