@@ -112,7 +112,7 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "adjst")
         {
-            terminalFunctions.AdjustFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
             hubScreen.UpdateHubDisplay();
         }
         else

@@ -46,12 +46,10 @@ public class TerminalData : MonoBehaviour
         {
             int loops = terminals[i].GetComponent<TerminalData>().numberOfSystems;
 
-            for (int o = 0; o < loops; i++)
+            for (int o = 0; o < loops; o++)
             {
-                systems.Add("trm" + i);
+                systems.Add("trm" + (i + 1));
             }
-
-            totalSystems += terminals[i].GetComponent<TerminalData>().numberOfSystems;
         }
     }
 

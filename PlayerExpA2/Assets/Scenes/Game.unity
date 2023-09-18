@@ -931,10 +931,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c47ef172430994c9b20a3d9569dd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalSystems: 0
   mechanismManager: {fileID: 2100409951}
   batteryCells: []
   cellBatteryAmount: []
   cellPowerDraw: []
+  systems: []
   batteryCellsGiven: []
   cellSysConnection: []
   cellPower: []
@@ -1680,6 +1682,10 @@ PrefabInstance:
       propertyPath: mechanismManager
       value: 
       objectReference: {fileID: 2100409951}
+    - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: hubScreen
+      value: 
+      objectReference: {fileID: 117967326}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 
@@ -4801,6 +4807,10 @@ PrefabInstance:
       propertyPath: mechanismManager
       value: 
       objectReference: {fileID: 2100409951}
+    - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: hubScreen
+      value: 
+      objectReference: {fileID: 117967326}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 
@@ -10255,11 +10265,11 @@ MonoBehaviour:
   sheilds: 0
   shipHealth: 0
   experiment: 0
-  sheildRegenMultiplier: 1
-  oxygenFilteringMultiplier: 1
-  experimentMultiplier: 1
-  shipCycleTime: 2
-  oxygenLossPerCycle: 4
+  sheildRegenMultiplier: 0
+  oxygenFilteringMultiplier: 0
+  experimentMultiplier: 0
+  shipCycleTime: 1000
+  oxygenLossPerCycle: 0
   shipPowerText: {fileID: 1481839800}
   oxygenQualityText: {fileID: 731934992}
   sheildsText: {fileID: 1725834486}
@@ -10273,6 +10283,7 @@ MonoBehaviour:
   - {fileID: 1284590795}
   - {fileID: 489150935}
   hubTerminal: {fileID: 117967325}
+  hubScreen: {fileID: 117967326}
 --- !u!1 &2106268207
 GameObject:
   m_ObjectHideFlags: 0
@@ -10598,6 +10609,10 @@ PrefabInstance:
       propertyPath: mechanismManager
       value: 
       objectReference: {fileID: 2100409951}
+    - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: hubScreen
+      value: 
+      objectReference: {fileID: 117967326}
     - target: {fileID: 7698571771326087009, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: hubTerminal
       value: 

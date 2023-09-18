@@ -89,17 +89,16 @@ public class TerminalFunctions
     {
         if (inputIndcFunc[1].Substring(0, 3) == "sys")
         {
-            int terminalNumber = int.Parse(inputIndcFunc[1].Substring(inputIndcFunc[1].Length - 1, 1));
-            int cellNumber = int.Parse(inputIndcFunc[2].Substring(4, 1));
+            int systemNumber = int.Parse(inputIndcFunc[1].Substring(inputIndcFunc[1].Length - 1, 1));
+            int cellNumber = int.Parse(inputIndcFunc[2].Substring(5, 1));
 
-            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cell")
+            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(6, 1) == "]" && inputIndcFunc[2].Substring(1, 4) == "cell")
             {
-                if (terminalNumber <= terminalData.terminals.Count)
+                if (systemNumber - 1 <= terminalData.systems.Count)
                 {
                     if (cellNumber <= terminalData.batteryCells.Count)
                     {
-                        terminalData.batteryCells[cellNumber] = "terminal " + terminalNumber;
-                        terminalData.terminals[terminalNumber-1].GetComponent<TerminalData>().GiveCell("cell " + cellNumber);
+                        terminalData.batteryCells[cellNumber] = "system " + systemNumber;
                     }
                     else
                     {
@@ -110,7 +109,7 @@ public class TerminalFunctions
                 else
                 {
                     MoveUpLine(textBoxCol1, textBoxCol2);
-                    textBoxCol1.text += "terminal " + terminalNumber + " does not exist";
+                    textBoxCol1.text += "terminal " + systemNumber + " does not exist";
                 }
             }
             else
@@ -165,24 +164,20 @@ public class TerminalFunctions
 
         if (int.TryParse(inputIndcFunc[1], out powerChange))
         {
-            int cellNumber = int.Parse(inputIndcFunc[2].Substring(4, 1));
-
-            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cll")
+            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(6, 1) == "]" && inputIndcFunc[2].Substring(1, 4) == "cell")
             {
-                for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+                int cellNumber = int.Parse(inputIndcFunc[2].Substring(5, 1));
+                if ((terminalData.batteryCells.Count - 1) > cellNumber)
                 {
-                    if (int.Parse(terminalData.batteryCellsGiven[i].Substring(terminalData.batteryCellsGiven[i].Length - 1, 1)) == cellNumber)
+                    if (terminalData.batteryCells[cellNumber] != "unconnected")
                     {
-                        if (terminalData.cellSysConnection[i] != "unconnected")
-                        {
-                            terminalData.cellPower[i] = powerChange;
-                            return;
-                        }
-                        else
-                        {
-                            MoveUpLine(textBoxCol1, textBoxCol2);
-                            textBoxCol1.text += "cell " + cellNumber + " does not have a system attached";
-                        }
+                        terminalData.cellPowerDraw[cellNumber] = powerChange;
+                        return;
+                    }
+                    else
+                    {
+                        MoveUpLine(textBoxCol1, textBoxCol2);
+                        textBoxCol1.text += "cell " + cellNumber + " does not have a system attached";
                     }
                 }
             }
@@ -199,55 +194,55 @@ public class TerminalFunctions
         }
     }
 
-    public void LinkSystemFunction(string[] inputIndcFunc, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
-    {
-        if (inputIndcFunc[1].Substring(0, 3) == "sys")
-        {
-            int systemNumber = int.Parse(inputIndcFunc[1].Substring(inputIndcFunc[1].Length - 1, 1));
-            int cellNumber = int.Parse(inputIndcFunc[2].Substring(4, 1));
+    //public void LinkSystemFunction(string[] inputIndcFunc, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
+    //{
+    //    if (inputIndcFunc[1].Substring(0, 3) == "sys")
+    //    {
+    //        int systemNumber = int.Parse(inputIndcFunc[1].Substring(inputIndcFunc[1].Length - 1, 1));
+    //        int cellNumber = int.Parse(inputIndcFunc[2].Substring(4, 1));
 
-            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cll")
-            {
-                if (systemNumber <= terminalData.numberOfSystems)
-                {
-                    for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
-                    {
-                        int cellsGivenNum = int.Parse(terminalData.batteryCellsGiven[i].Substring(terminalData.batteryCellsGiven[i].Length - 1, 1));
-                        if (cellNumber == cellsGivenNum)
-                        {
-                            for (int o = 0; o < terminalData.batteryCellsGiven.Count; o++)
-                            {
-                                if (int.Parse(terminalData.batteryCellsGiven[o].Substring(terminalData.batteryCellsGiven[o].Length - 1, 1)) == cellNumber)
-                                {
-                                    terminalData.cellSysConnection[o] = "system " + systemNumber;
-                                    terminalData.unconnectedSystems.Remove("system " + systemNumber);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    MoveUpLine(textBoxCol1, textBoxCol2);
+    //        if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cll")
+    //        {
+    //            if (systemNumber <= terminalData.numberOfSystems)
+    //            {
+    //                for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+    //                {
+    //                    int cellsGivenNum = int.Parse(terminalData.batteryCellsGiven[i].Substring(terminalData.batteryCellsGiven[i].Length - 1, 1));
+    //                    if (cellNumber == cellsGivenNum)
+    //                    {
+    //                        for (int o = 0; o < terminalData.batteryCellsGiven.Count; o++)
+    //                        {
+    //                            if (int.Parse(terminalData.batteryCellsGiven[o].Substring(terminalData.batteryCellsGiven[o].Length - 1, 1)) == cellNumber)
+    //                            {
+    //                                terminalData.cellSysConnection[o] = "system " + systemNumber;
+    //                                terminalData.unconnectedSystems.Remove("system " + systemNumber);
+    //                                return;
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //                MoveUpLine(textBoxCol1, textBoxCol2);
 
-                    textBoxCol1.text += "cell " + cellNumber + " is not connected to this terminal";
-                }
-                else
-                {
-                    MoveUpLine(textBoxCol1, textBoxCol2);
-                    textBoxCol1.text += "system " + systemNumber + " does not exist";
-                }
-            }
-            else
-            {
-                MoveUpLine(textBoxCol1, textBoxCol2);
-                textBoxCol1.text += "incorrectly referencing a cell";
-            }
-        }
-        else
-        {
-            MoveUpLine(textBoxCol1, textBoxCol2);
-            textBoxCol1.text += inputIndcFunc[1] + " cannot be connected to a battery cell";
-        }
+    //                textBoxCol1.text += "cell " + cellNumber + " is not connected to this terminal";
+    //            }
+    //            else
+    //            {
+    //                MoveUpLine(textBoxCol1, textBoxCol2);
+    //                textBoxCol1.text += "system " + systemNumber + " does not exist";
+    //            }
+    //        }
+    //        else
+    //        {
+    //            MoveUpLine(textBoxCol1, textBoxCol2);
+    //            textBoxCol1.text += "incorrectly referencing a cell";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        MoveUpLine(textBoxCol1, textBoxCol2);
+    //        textBoxCol1.text += inputIndcFunc[1] + " cannot be connected to a battery cell";
+    //    }
 
 
-    }
+    //}
 }
