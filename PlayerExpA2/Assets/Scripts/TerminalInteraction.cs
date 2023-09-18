@@ -6,6 +6,7 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
 {
 
     [SerializeField] GameObject terminalCanvas;
+    [SerializeField] GameObject openPanelCanvas;
     [SerializeField] GameObject player;
 
     [SerializeField] Animator openPanel;
@@ -13,6 +14,10 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
     GrappleMovement grappleMovement;
 
     public bool interacting;
+
+    bool terminalActive;
+    bool closing;
+    bool openeing;
 
     void Start()
     {
@@ -26,20 +31,33 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
 
     void Update()
     {
-        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("FinishedScreen"))
+        if (openPanelCanvas.activeInHierarchy && terminalActive)
         {
-            terminalCanvas.SetActive(true);
-            openPanel.SetBool("Open", false);
-        }
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("FinishedScreen"))
+            {
+                terminalCanvas.SetActive(true);
+                openPanel.SetBool("Open", false);
+                openeing = true;
+            }
 
-        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && interacting)
-        {
-            Time.timeScale = 0;
-        }
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && openeing)
+            {
+                Time.timeScale = 0;
+                openeing = false;
+            }
 
-        if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose") && !interacting)
-        {
-            openPanel.SetBool("Close", false);
+                if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && closing)
+            {
+                openPanelCanvas.SetActive(false);
+                closing = false;
+                terminalActive = false;
+            }
+
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose"))
+            {
+                closing = true;
+                openPanel.SetBool("Close", false);
+            }
         }
     }
 
@@ -47,10 +65,12 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
     {
         if (!interacting) 
         {
+            openPanelCanvas.SetActive(true);
             openPanel.SetBool("Open", true);
 
 
             interacting = true;
+            terminalActive = true;
 
             grappleMovement.Freeze();
             grappleMovement.HaltMovement();

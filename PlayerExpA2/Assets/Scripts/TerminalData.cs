@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TerminalData : MonoBehaviour
 {
+    public int totalSystems;
     [SerializeField] MechanismManager mechanismManager;
 
     [Header ("in editor for debugging")]
@@ -11,6 +12,7 @@ public class TerminalData : MonoBehaviour
     public List<string> batteryCells = new List<string>();
     public List<float> cellBatteryAmount = new List<float>();
     public List<float> cellPowerDraw = new List<float>();
+    public List<string> systems = new List<string>();
 
     //for terminal
     public List<string> batteryCellsGiven = new List<string>();
@@ -38,6 +40,18 @@ public class TerminalData : MonoBehaviour
         for (int i = 0; i < numberOfSystems; i ++)
         {
             unconnectedSystems.Add("system " + i);
+        }
+
+        for (int i = 0; i < terminals.Count; i ++)
+        {
+            int loops = terminals[i].GetComponent<TerminalData>().numberOfSystems;
+
+            for (int o = 0; o < loops; i++)
+            {
+                systems.Add("trm" + i);
+            }
+
+            totalSystems += terminals[i].GetComponent<TerminalData>().numberOfSystems;
         }
     }
 

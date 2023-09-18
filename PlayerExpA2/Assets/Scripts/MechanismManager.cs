@@ -41,6 +41,7 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] List<GameObject> terminals = new List<GameObject>();
     [SerializeField] TerminalData hubTerminal;
+    [SerializeField] HubScreen hubScreen;
 
     float shipTimer;
 
@@ -98,6 +99,8 @@ public class MechanismManager : MonoBehaviour
             OxygenDecrease();
             OxygenFiltering();
             Experiment();
+
+            hubScreen.UpdateHubDisplay();
 
             shipTimer = 0;
         }

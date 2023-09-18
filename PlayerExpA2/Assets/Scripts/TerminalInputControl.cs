@@ -8,6 +8,7 @@ public class TerminalInputControl : MonoBehaviour
     public float onlinePowerDraw;
 
     [SerializeField] TerminalData hubTerminal;
+    [SerializeField] HubScreen hubScreen;
 
     [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Text textBoxCol1;
@@ -86,11 +87,11 @@ public class TerminalInputControl : MonoBehaviour
             {
                 if (inputIndcFunc[1] == "celldir")
                 {
-                    CellDirectory();
+                    terminalFunctions.CellDirectory(hubTerminal, textBoxCol1, textBoxCol2);
                 }
                 else if (inputIndcFunc[1] == "powerdir")
                 {
-                    PowerDirectory();
+                    terminalFunctions.PowerDirectory(hubTerminal, textBoxCol1, textBoxCol2);
                 }
                 else
                 {
@@ -102,14 +103,17 @@ public class TerminalInputControl : MonoBehaviour
         else if (inputIndcFunc[0] == "clr")
         {
             terminalFunctions.ClearFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "link")
         {
-            terminalFunctions.LinkSystemFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "adjst")
         {
             terminalFunctions.AdjustFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else
         {
@@ -119,66 +123,6 @@ public class TerminalInputControl : MonoBehaviour
                 textBoxCol1.text += "The term" + " '" + inputFunction + "' " + "is not recognized try typing help for avaliable functions";
             }
         }
-    }
-
-    public void CellDirectory()
-    {
-        if (terminalData.batteryCellsGiven.Count > 4)
-        {
-            int numPerCol = terminalData.batteryCellsGiven.Count / 2;
-
-            for (int i = 0; i < numPerCol; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
-                textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellSysConnection[i + numPerCol];
-            }
-        }
-        else
-        {
-            for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
-            }
-        }
-
-        MoveUpLine();
-        textBoxCol1.text += ".......................................\nunassigned systems:";
-        textBoxCol2.text += "\n";
-
-        for (int i = 0; i < terminalData.unconnectedSystems.Count; i++)
-        {
-            MoveUpLine();
-            textBoxCol1.text += terminalData.unconnectedSystems[i];
-        }
-    }
-
-    public void PowerDirectory()
-    {
-        if (terminalData.batteryCellsGiven.Count > 4)
-        {
-            int numPerCol = terminalData.batteryCellsGiven.Count / 2;
-
-            for (int i = 0; i < numPerCol; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
-                textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellPower[i + numPerCol] + " kW-c";
-            }
-        }
-        else
-        {
-            for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
-            }
-        }
-
-        MoveUpLine();
-        textBoxCol1.text += ".......................................\ntotal terminal power draw: " + totalPowerDraw + " kW-c";
-        textBoxCol2.text += "\n";
     }
 
     void MoveUpLine()
@@ -231,4 +175,68 @@ public class TerminalInputControl : MonoBehaviour
             }
         }
     }
+
+
+
+
+
+    //public void CellDirectory()
+    //{
+    //    if (terminalData.batteryCellsGiven.Count > 4)
+    //    {
+    //        int numPerCol = terminalData.batteryCellsGiven.Count / 2;
+
+    //        for (int i = 0; i < numPerCol; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
+    //            textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellSysConnection[i + numPerCol];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
+    //        }
+    //    }
+
+    //    MoveUpLine();
+    //    textBoxCol1.text += ".......................................\nunassigned systems:";
+    //    textBoxCol2.text += "\n";
+
+    //    for (int i = 0; i < terminalData.unconnectedSystems.Count; i++)
+    //    {
+    //        MoveUpLine();
+    //        textBoxCol1.text += terminalData.unconnectedSystems[i];
+    //    }
+    //}
+
+    //public void PowerDirectory()
+    //{
+    //    if (terminalData.batteryCellsGiven.Count > 4)
+    //    {
+    //        int numPerCol = terminalData.batteryCellsGiven.Count / 2;
+
+    //        for (int i = 0; i < numPerCol; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
+    //            textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellPower[i + numPerCol] + " kW-c";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
+    //        }
+    //    }
+
+    //    MoveUpLine();
+    //    textBoxCol1.text += ".......................................\ntotal terminal power draw: " + totalPowerDraw + " kW-c";
+    //    textBoxCol2.text += "\n";
+    //}
 }

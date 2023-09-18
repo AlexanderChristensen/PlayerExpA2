@@ -87,12 +87,12 @@ public class TerminalFunctions
 
     public void LinkFunction(string[] inputIndcFunc, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
     {
-        if (inputIndcFunc[1].Substring(0, 3) == "trm")
+        if (inputIndcFunc[1].Substring(0, 3) == "sys")
         {
             int terminalNumber = int.Parse(inputIndcFunc[1].Substring(inputIndcFunc[1].Length - 1, 1));
             int cellNumber = int.Parse(inputIndcFunc[2].Substring(4, 1));
 
-            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cll")
+            if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(5, 1) == "]" && inputIndcFunc[2].Substring(1, 3) == "cell")
             {
                 if (terminalNumber <= terminalData.terminals.Count)
                 {

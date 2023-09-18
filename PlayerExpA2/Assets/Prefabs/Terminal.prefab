@@ -1063,6 +1063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terminalCanvas: {fileID: 7698571771594051245}
   player: {fileID: 0}
+  openPanel: {fileID: 0}
   interacting: 0
 --- !u!114 &7698571771326087008
 MonoBehaviour:
@@ -1076,7 +1077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c47ef172430994c9b20a3d9569dd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mechanismManager: {fileID: 0}
   batteryCells: []
+  cellBatteryAmount: []
+  cellPowerDraw: []
   batteryCellsGiven: []
   cellSysConnection: []
   cellPower: []
@@ -1096,6 +1100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ecd151f6d8bb9498a3da8eb7cafa49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onlinePowerDraw: 0
+  hubTerminal: {fileID: 0}
   inputField: {fileID: 7698571770593406165}
   textBoxCol1: {fileID: 7698571770512509215}
   textBoxCol2: {fileID: 7698571770983485805}
