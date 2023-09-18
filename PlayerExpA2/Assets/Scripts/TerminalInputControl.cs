@@ -102,7 +102,7 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "clr")
         {
-            terminalFunctions.ClearFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
             hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "link")

@@ -127,17 +127,16 @@ public class TerminalFunctions
 
     public void ClearFunction(string[] inputIndcFunc, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
     {
-        if (inputIndcFunc[1].Substring(0, 1) == "[" && inputIndcFunc[1].Substring(5, 1) == "]" && inputIndcFunc[1].Substring(1, 3) == "cll")
+        if (inputIndcFunc[1].Substring(0, 1) == "[" && inputIndcFunc[1].Substring(6, 1) == "]" && inputIndcFunc[1].Substring(1, 4) == "cell")
         {
-            int cellNumber = int.Parse(inputIndcFunc[1].Substring(4, 1));
-            if (cellNumber <= terminalData.batteryCells.Count)
+            int cellNumber = int.Parse(inputIndcFunc[1].Substring(5, 1));
+
+            if (cellNumber <= (terminalData.batteryCells.Count - 1))
             {
-                int terminalToRemove = int.Parse(terminalData.batteryCells[cellNumber].Substring(terminalData.batteryCells[cellNumber].Length - 1, 1));
+                int sysToRemove = int.Parse(terminalData.batteryCells[cellNumber].Substring(terminalData.batteryCells[cellNumber].Length - 1, 1));
 
-                terminalData.terminals[terminalToRemove - 1].GetComponent<TerminalData>().RemoveCell("cell " + cellNumber);
                 terminalData.batteryCells[cellNumber] = "unconnected";
-
-                Debug.Log("Terminal to remove: " + terminalToRemove);
+                terminalData.cellPowerDraw[cellNumber] = 0; 
             }
             else
             {
@@ -167,7 +166,7 @@ public class TerminalFunctions
             if (inputIndcFunc[2].Substring(0, 1) == "[" && inputIndcFunc[2].Substring(6, 1) == "]" && inputIndcFunc[2].Substring(1, 4) == "cell")
             {
                 int cellNumber = int.Parse(inputIndcFunc[2].Substring(5, 1));
-                if ((terminalData.batteryCells.Count - 1) > cellNumber)
+                if ((terminalData.batteryCells.Count - 1) >= cellNumber)
                 {
                     if (terminalData.batteryCells[cellNumber] != "unconnected")
                     {

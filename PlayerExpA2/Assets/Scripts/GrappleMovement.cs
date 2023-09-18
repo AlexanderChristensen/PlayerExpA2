@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GrappleMovement : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float grappleRange;
     [SerializeField] float springStrength;
     [SerializeField] float damperStrength;
+
+    [SerializeField] TMP_Text velocityText;
+    [SerializeField] TMP_Text accelerationText;
 
     [SerializeField] GameObject grapplePointModel;
 
@@ -27,6 +31,9 @@ public class GrappleMovement : MonoBehaviour
     GameObject grappleInstance;
 
     public bool canMove;
+
+    float lastTickVelocity;
+    float acceleration;
 
     void Start()
     {
@@ -75,6 +82,9 @@ public class GrappleMovement : MonoBehaviour
                 grappleLine.enabled = false;
             }
         }
+
+        velocityText.text = rb.velocity.magnitude.ToString("F2") + "m/s";
+        accelerationText.text = acceleration.ToString("F2") + "m/s/s";
     }
 
     void FixedUpdate()
@@ -86,6 +96,8 @@ public class GrappleMovement : MonoBehaviour
             rb.AddForce((grapplePointDirection - transform.position).normalized * appliedPullForce);
         }
 
+        acceleration = Mathf.Abs((rb.velocity.magnitude - lastTickVelocity) / Time.fixedDeltaTime);
+        lastTickVelocity = rb.velocity.magnitude;   
     }
 
 
