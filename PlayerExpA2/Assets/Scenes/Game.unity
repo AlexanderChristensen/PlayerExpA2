@@ -939,16 +939,14 @@ MonoBehaviour:
   cellBatteryAmount: []
   cellPowerDraw: []
   systems: []
-  batteryCellsGiven: []
-  cellSysConnection: []
-  cellPower: []
-  unconnectedSystems: []
+  avaliableSystems: []
   batteryCellCount: 8
   terminals:
   - {fileID: 1852855398}
   - {fileID: 1284590795}
   - {fileID: 489150935}
   numberOfSystems: 0
+  terminalNumber: 0
 --- !u!114 &117967326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,6 +1808,10 @@ PrefabInstance:
     - target: {fileID: 7698571771174399959, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_Color.r
       value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: terminalNumber
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: numberOfSystems
@@ -4935,6 +4937,10 @@ PrefabInstance:
     - target: {fileID: 7698571771174399959, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_Color.r
       value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: terminalNumber
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: numberOfSystems
@@ -10874,6 +10880,10 @@ PrefabInstance:
     - target: {fileID: 7698571771174399959, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: m_Color.r
       value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
+      propertyPath: terminalNumber
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: numberOfSystems

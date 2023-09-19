@@ -14,19 +14,24 @@ public class TerminalData : MonoBehaviour
     public List<float> cellPowerDraw = new List<float>();
     public List<string> systems = new List<string>();
 
+
+
     //for terminal
-    public List<string> batteryCellsGiven = new List<string>();
-    public List<string> cellSysConnection = new List<string>();    
-    public List<float> cellPower = new List<float>();
-    public List<string> unconnectedSystems = new List<string>();
+    //public List<string> batteryCellsGiven = new List<string>();
+    //public List<string> cellSysConnection = new List<string>();    
+    //public List<float> cellPower = new List<float>();
+    //public List<string> unconnectedSystems = new List<string>();
+    public List<string> avaliableSystems = new List<string>();
 
     [Header("only needed for hub")]
     [SerializeField] int batteryCellCount;
     public List<GameObject> terminals = new List<GameObject>();
     [Header("only needed for terminal")]
     public int numberOfSystems;
+    [SerializeField] int terminalNumber;
 
     int cellIndex;
+    int totalLoops = 0;
 
     void Start()
     {
@@ -39,7 +44,7 @@ public class TerminalData : MonoBehaviour
 
         for (int i = 0; i < numberOfSystems; i ++)
         {
-            unconnectedSystems.Add("system " + i);
+            //avaliableSystems.Add("system " + (i + (terminalNumber - 1)));
         }
 
         for (int i = 0; i < terminals.Count; i ++)
@@ -48,35 +53,40 @@ public class TerminalData : MonoBehaviour
 
             for (int o = 0; o < loops; o++)
             {
-                systems.Add("trm" + (i + 1));
+                string systemName = "trm" + (i + 1);
+                systems.Add(systemName); 
+
+                terminals[i].GetComponent<TerminalData>().avaliableSystems.Add("system " + (o + totalLoops));
             }
+
+            totalLoops += loops;
         }
     }
 
     public void GiveCell(string cellName)
     {
-        batteryCellsGiven.Add(cellName);
-        cellSysConnection.Add("unconnected");
-        cellPower.Add(0);
+        //batteryCellsGiven.Add(cellName);
+        //cellSysConnection.Add("unconnected");
+        //cellPower.Add(0);
     }
 
     public void RemoveCell(string cellName)
     {
-        for (int i = 0; i < batteryCellsGiven.Count; i++)
-        {
-            if (batteryCellsGiven[i] == cellName)
-            {
-                cellIndex = i;
-                batteryCellsGiven.RemoveAt(i);
-            }
-        }
+        //for (int i = 0; i < batteryCellsGiven.Count; i++)
+        //{
+        //    if (batteryCellsGiven[i] == cellName)
+        //    {
+        //        cellIndex = i;
+        //        batteryCellsGiven.RemoveAt(i);
+        //    }
+        //}
 
-        if (cellSysConnection[cellIndex] != "unconnected")
-        {
-            unconnectedSystems.Add(cellSysConnection[cellIndex]);
-            cellSysConnection[cellIndex] = "unconnected";
+        //if (cellSysConnection[cellIndex] != "unconnected")
+        //{
+        //    unconnectedSystems.Add(cellSysConnection[cellIndex]);
+        //    cellSysConnection[cellIndex] = "unconnected";
 
-            cellPower.RemoveAt(cellIndex);
-        }
+        //    cellPower.RemoveAt(cellIndex);
+        //}
     }
 }

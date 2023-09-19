@@ -87,7 +87,7 @@ public class TerminalInputControl : MonoBehaviour
             {
                 if (inputIndcFunc[1] == "celldir")
                 {
-                    terminalFunctions.CellDirectory(hubTerminal, textBoxCol1, textBoxCol2);
+                    terminalFunctions.CellDirectory(hubTerminal, terminalData, textBoxCol1, textBoxCol2);
                 }
                 else if (inputIndcFunc[1] == "powerdir")
                 {
@@ -107,12 +107,12 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "link")
         {
-            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
+            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
             hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "adjst")
         {
-            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
+            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
             hubScreen.UpdateHubDisplay();
         }
         else
@@ -133,47 +133,47 @@ public class TerminalInputControl : MonoBehaviour
 
     void CheckIfOnline()
     {
-        tempTotalPowerDraw = 0;
+        //tempTotalPowerDraw = 0;
 
-        for (int i = 0; i < terminalData.cellPower.Count; i++)
-        {
-            tempTotalPowerDraw += terminalData.cellPower[i];
-        }
+        //for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //{
+        //    tempTotalPowerDraw += terminalData.cellPower[i];
+        //}
 
-        totalPowerDraw = tempTotalPowerDraw;
+        //totalPowerDraw = tempTotalPowerDraw;
 
-        for (int i = 0; i < terminalData.cellPower.Count; i++)
-        {
-            if (terminalData.cellPower[i] == 0)
-            {
-                return;
-            }
+        //for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //{
+        //    if (terminalData.cellPower[i] == 0)
+        //    {
+        //        return;
+        //    }
 
-            onlinePowerDraw = totalPowerDraw;
-        }
+        //    onlinePowerDraw = totalPowerDraw;
+        //}
 
-        if (terminalData.cellPower.Count == 0) 
-        {
-            onlinePowerDraw = 0;
-        }
+        //if (terminalData.cellPower.Count == 0) 
+        //{
+        //    onlinePowerDraw = 0;
+        //}
     }
 
     void UpdateHubCellDraw()
     {
-        if (terminalData.cellSysConnection.Count > 0 && terminalData.batteryCellsGiven.Count > 0) 
-        {
-            for (int i = 0; i < terminalData.cellPower.Count; i++)
-            {
-                int index = int.Parse(terminalData.batteryCellsGiven[i].Substring(5, 1));
+        //if (terminalData.cellSysConnection.Count > 0 && terminalData.batteryCellsGiven.Count > 0) 
+        //{
+        //    for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //    {
+        //        int index = int.Parse(terminalData.batteryCellsGiven[i].Substring(5, 1));
 
-                Debug.Log(index);
+        //        Debug.Log(index);
 
-                if (index <= hubTerminal.cellPowerDraw.Count && index > -1)
-                {
-                    hubTerminal.cellPowerDraw[index] = terminalData.cellPower[i];
-                }
-            }
-        }
+        //        if (index <= hubTerminal.cellPowerDraw.Count && index > -1)
+        //        {
+        //            hubTerminal.cellPowerDraw[index] = terminalData.cellPower[i];
+        //        }
+        //    }
+        //}
     }
 
 
