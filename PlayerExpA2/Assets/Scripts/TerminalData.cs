@@ -13,7 +13,9 @@ public class TerminalData : MonoBehaviour
     public List<string> batteryCells = new List<string>();
     public List<float> cellBatteryAmount = new List<float>();
     public List<float> cellPowerDraw = new List<float>();
+    public List<int> activeCells = new List<int>();
     public List<string> systems = new List<string>();
+
 
 
 

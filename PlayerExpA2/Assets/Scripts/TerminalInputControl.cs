@@ -147,7 +147,15 @@ public class TerminalInputControl : MonoBehaviour
                         {
                             totalPowerDraw += hubTerminal.cellPowerDraw[o];
 
-                            Debug.Log("Found one!");
+                            for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                            {
+                                if (hubTerminal.activeCells[p]  == o)
+                                { 
+                                    return;  
+                                }
+                            }
+
+                            hubTerminal.activeCells.Add(o);
                         }
                     }
                 }
