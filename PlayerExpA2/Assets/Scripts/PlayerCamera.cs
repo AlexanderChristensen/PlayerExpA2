@@ -9,6 +9,10 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] Transform orientation;
 
+    [SerializeField] GameObject player;
+    
+    GrappleMovement grappleMovement;
+
     float xRotation;
     float yRotation;
 
@@ -16,21 +20,26 @@ public class PlayerCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        grappleMovement = player.GetComponent<GrappleMovement>();
     }
 
     void Update()
     {
-        // get mouse input
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        if (grappleMovement.canMove) 
+        {
+            // get mouse input
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90, 90);
 
-        yRotation += mouseX;
+            yRotation += mouseX;
 
-        // rotate cam and player
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            // rotate cam and player
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
     }
 }
