@@ -102,7 +102,7 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "clr")
         {
-            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, textBoxCol1, textBoxCol2);
+            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
             hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "link")
@@ -133,6 +133,33 @@ public class TerminalInputControl : MonoBehaviour
 
     void CheckIfOnline()
     {
+        totalPowerDraw = 0; 
+
+        if (terminalData.systemsOnline == terminalData.numberOfSystems)
+        {
+            for (int i = 0; i < terminalData.numberOfSystems; i++)
+            {
+                for (int o = 0; o < hubTerminal.batteryCells.Count; o++)
+                {
+                    if (hubTerminal.batteryCells[o] != "unconnected")
+                    {
+                        if (int.Parse(terminalData.avaliableSystems[i].Substring(terminalData.avaliableSystems[i].Length - 1, 1)) == int.Parse(hubTerminal.batteryCells[o].Substring(hubTerminal.batteryCells[o].Length - 1, 1)))
+                        {
+                            totalPowerDraw += hubTerminal.cellPowerDraw[o];
+
+                            Debug.Log("Found one!");
+                        }
+                    }
+                }
+            }
+
+            onlinePowerDraw = totalPowerDraw;
+        }
+        else
+        {
+            onlinePowerDraw = 0;
+        }
+
         //tempTotalPowerDraw = 0;
 
         //for (int i = 0; i < terminalData.cellPower.Count; i++)

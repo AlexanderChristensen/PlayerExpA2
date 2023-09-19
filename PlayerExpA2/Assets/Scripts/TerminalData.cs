@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerminalData : MonoBehaviour
 {
     public int totalSystems;
+    public int systemsOnline;
     [SerializeField] MechanismManager mechanismManager;
 
     [Header ("in editor for debugging")]

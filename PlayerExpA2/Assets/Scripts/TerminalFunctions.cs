@@ -102,8 +102,16 @@ public class TerminalFunctions
                         {
                             if (cellNumber <= hubData.batteryCells.Count)
                             {
-                                hubData.batteryCells[cellNumber] = "system " + systemNumber;
-                                return;
+                                if (hubData.batteryCells[cellNumber] == "unconnected")
+                                {
+                                    hubData.batteryCells[cellNumber] = "system " + systemNumber;
+                                    return;
+                                }
+                                else
+                                {
+                                    MoveUpLine(textBoxCol1, textBoxCol2);
+                                    textBoxCol1.text += "this system is already connected to this cell";
+                                }
                             }
                             else
                             {
@@ -135,18 +143,28 @@ public class TerminalFunctions
         }
     }
 
-    public void ClearFunction(string[] inputIndcFunc, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
+    public void ClearFunction(string[] inputIndcFunc, TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
     {
         if (inputIndcFunc[1].Substring(0, 1) == "[" && inputIndcFunc[1].Substring(6, 1) == "]" && inputIndcFunc[1].Substring(1, 4) == "cell")
         {
             int cellNumber = int.Parse(inputIndcFunc[1].Substring(5, 1));
 
-            if (cellNumber <= (terminalData.batteryCells.Count - 1))
+            if (cellNumber <= (hubData.batteryCells.Count - 1))
             {
-                int sysToRemove = int.Parse(terminalData.batteryCells[cellNumber].Substring(terminalData.batteryCells[cellNumber].Length - 1, 1));
+                int sysToRemove = int.Parse(hubData.batteryCells[cellNumber].Substring(hubData.batteryCells[cellNumber].Length - 1, 1));
 
-                terminalData.batteryCells[cellNumber] = "unconnected";
-                terminalData.cellPowerDraw[cellNumber] = 0; 
+                if (hubData.batteryCells[cellNumber] != "unconnected")
+                {
+                    hubData.batteryCells[cellNumber] = "unconnected";
+                    hubData.cellPowerDraw[cellNumber] = 0;
+
+                    terminalData.systemsOnline--;
+                }
+                else
+                {
+                    MoveUpLine(textBoxCol1, textBoxCol2);
+                    textBoxCol1.text += "this cell is already clear";
+                }
             }
             else
             {
@@ -186,6 +204,11 @@ public class TerminalFunctions
                         {
                             if (int.Parse(terminalData.avaliableSystems[i].Substring(terminalData.avaliableSystems[i].Length - 1, 1)) == int.Parse(hubData.batteryCells[cellNumber].Substring(hubData.batteryCells[cellNumber].Length - 1, 1)))
                             {
+                                if (hubData.cellPowerDraw[cellNumber] == 0)
+                                {
+                                    terminalData.systemsOnline++;
+                                }
+
                                 hubData.cellPowerDraw[cellNumber] = powerChange;
                                 return;
                             }
