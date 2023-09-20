@@ -23,15 +23,21 @@ public class MechanismManager : MonoBehaviour
 
     [Header("Mechanism Variables")]
     [SerializeField] float sheildRegenMultiplier;
-    [SerializeField] float oxygenFilteringMultiplier;
+
     [SerializeField] float shipCycleTime;
+
+
+    [Header ("Oxyge Filtering Variuables")]
+    [SerializeField] float oxygenFilteringMultiplier;
     [SerializeField] float oxygenLossPerCycle;
+    [SerializeField] float velocitySampleRate;
+    [SerializeField] float velocityAllowance;
 
     [Header ("Experiment Variables")]
     [SerializeField] float experimentOptimalMulti;
     [SerializeField] float experimentSuboptimalMulti;
-    [SerializeField] float optimalDeviation;
     [SerializeField] float subOptimalDeviation;
+    [SerializeField] float cycleToChangeOptimal;
 
     [Header("References")]
     [SerializeField] TMP_Text shipHealthText;
@@ -49,6 +55,8 @@ public class MechanismManager : MonoBehaviour
     [SerializeField] TerminalData hubTerminal;
     [SerializeField] HubScreen hubScreen;
 
+    [SerializeField] GrappleMovement playerMovement;
+
     float shipTimer;
 
     float powerDrawTimer;
@@ -62,6 +70,9 @@ public class MechanismManager : MonoBehaviour
 
     float experimentCycleChange;
     float experimentOptimalRange;
+
+    float velocitySampleTimer;
+    float lastSampleVelocity;
 
     void Start()
     {
@@ -105,6 +116,8 @@ public class MechanismManager : MonoBehaviour
 
         ShipTimer();
         AsteroidHit();
+
+        SampleVelocity();
     }
 
     void ShipTimer()
@@ -201,6 +214,8 @@ public class MechanismManager : MonoBehaviour
 
     void OxygenDecrease()
     {
+
+
         if (oxygenQuality > 0)
         {
             oxygenQuality -= oxygenLossPerCycle;
@@ -234,17 +249,28 @@ public class MechanismManager : MonoBehaviour
 
     void Experiment()
     {
-        if (experimentCycleChange <= 0)
-        {
-            experimentOptimalRange = Random.Range(3, 7);
+        SetOptimalValue();
 
+        Debug.Log("the optimal wattage: " + experimentOptimalRange);
 
-        }
+        
         if (experiment < experimentTotal)
         {
             if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
             {
-                experiment += experimentDraw * experimentOptimalMulti;
+
+                if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
+                {
+                    if (experimentDraw == experimentOptimalRange)
+                    {
+                        experiment += experimentOptimalMulti;
+                    }
+                    else
+                    {
+                        experiment += experimentSuboptimalMulti;
+                    }
+                }
+                
             }
             else
             {
@@ -255,6 +281,45 @@ public class MechanismManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene("WinScreen");
+        }
+    }
+
+    void SetOptimalValue()
+    {
+        if (experimentCycleChange <= 0)
+        {
+            experimentOptimalRange = Random.Range(3, 7);
+
+            experimentCycleChange = cycleToChangeOptimal;
+        }
+        else
+        {
+            experimentCycleChange--;
+        }
+    }
+
+    void SampleVelocity()
+    {
+        if (velocitySampleTimer <= 0)
+        {
+            float velocityDifference = Mathf.Abs(lastSampleVelocity - playerMovement.velocity);
+
+            if (velocityDifference > velocityAllowance)
+            {
+                Debug.Log("maiantiang velocity");
+            }
+            else
+            {
+                Debug.Log("Not maianting velocity");
+            }
+
+            lastSampleVelocity = playerMovement.velocity;
+
+            velocitySampleTimer = velocitySampleRate;
+        }
+        else
+        {
+            velocitySampleTimer -= Time.deltaTime;
         }
     }
 }

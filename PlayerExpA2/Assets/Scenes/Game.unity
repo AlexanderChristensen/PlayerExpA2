@@ -300,7 +300,10 @@ MonoBehaviour:
   velocityText: {fileID: 188627586}
   accelerationText: {fileID: 1737781710}
   grapplePointModel: {fileID: 1078613890628425019, guid: f316bbe739996f6499a9d2b817635a72, type: 3}
+  velocitySampleFrequency: 0.2
   canMove: 0
+  acceleration: 0
+  velocity: 0
 --- !u!135 &23356837
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1500,7 +1503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -235, y: -622.5}
+  m_AnchoredPosition: {x: -535.75, y: 0}
   m_SizeDelta: {x: 625.946, y: 197.145}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &188627586
@@ -1532,8 +1535,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279637526
-  m_fontColor: {r: 0.08627451, g: 0.08627451, b: 0.08627451, a: 1}
+    rgba: 4293388263
+  m_fontColor: {r: 0.90588236, g: 0.90588236, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1550,14 +1553,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.52
-  m_fontSizeBase: 54.52
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -10896,7 +10899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 391.75, y: -622.5}
+  m_AnchoredPosition: {x: 531.5, y: 0}
   m_SizeDelta: {x: 625.946, y: 197.145}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1737781710
@@ -10928,8 +10931,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279637526
-  m_fontColor: {r: 0.08627451, g: 0.08627451, b: 0.08627451, a: 1}
+    rgba: 4293388263
+  m_fontColor: {r: 0.90588236, g: 0.90588236, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10946,14 +10949,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.52
-  m_fontSizeBase: 54.52
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -11277,10 +11280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -12736,13 +12739,15 @@ MonoBehaviour:
   shipHealth: 0
   experiment: 0
   sheildRegenMultiplier: 0
-  oxygenFilteringMultiplier: 1
   shipCycleTime: 2
+  oxygenFilteringMultiplier: 1
   oxygenLossPerCycle: 1
-  experimentOptimalMulti: 0
-  experimentSuboptimalMulti: 0
-  optimalDeviation: 0
-  subOptimalDeviation: 0
+  velocitySampleRate: 1
+  velocityAllowance: 0.5
+  experimentOptimalMulti: 1
+  experimentSuboptimalMulti: 0.5
+  subOptimalDeviation: 2
+  cycleToChangeOptimal: 10
   shipHealthText: {fileID: 1542575809}
   powerUI: {fileID: 1293551193}
   oxyFltrUI: {fileID: 1993928815}
@@ -12757,6 +12762,7 @@ MonoBehaviour:
   - {fileID: 489150935}
   hubTerminal: {fileID: 117967325}
   hubScreen: {fileID: 117967326}
+  playerMovement: {fileID: 23356836}
 --- !u!1 &2106268207
 GameObject:
   m_ObjectHideFlags: 0

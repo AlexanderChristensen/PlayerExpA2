@@ -19,6 +19,8 @@ public class GrappleMovement : MonoBehaviour
 
     [SerializeField] GameObject grapplePointModel;
 
+    [SerializeField] float velocitySampleFrequency;
+
     LineRenderer grappleLine;
 
     Rigidbody rb;
@@ -33,7 +35,10 @@ public class GrappleMovement : MonoBehaviour
     public bool canMove;
 
     float lastTickVelocity;
-    float acceleration;
+    [HideInInspector] public float acceleration;
+    [HideInInspector] public float velocity;
+
+    float velocitySampleTimer;
 
     void Start()
     {
@@ -83,8 +88,7 @@ public class GrappleMovement : MonoBehaviour
             }
         }
 
-        velocityText.text = rb.velocity.magnitude.ToString("F2") + "m/s";
-        accelerationText.text = acceleration.ToString("F2") + "m/s/s";
+        SampleVelocity();
     }
 
     void FixedUpdate()
@@ -97,7 +101,7 @@ public class GrappleMovement : MonoBehaviour
         }
 
         acceleration = Mathf.Abs((rb.velocity.magnitude - lastTickVelocity) / Time.fixedDeltaTime);
-        lastTickVelocity = rb.velocity.magnitude;   
+        lastTickVelocity = rb.velocity.magnitude;
     }
 
 
@@ -139,5 +143,22 @@ public class GrappleMovement : MonoBehaviour
     public void ContinueMovement()
     {
         canMove = true;
+    }
+
+    void SampleVelocity()
+    {
+        if (velocitySampleTimer <= 0)
+        {
+            velocity = rb.velocity.magnitude;
+
+            velocityText.text = velocity.ToString("F2") + "m/s";
+            accelerationText.text = acceleration.ToString("F2") + "m/s/s";
+
+            velocitySampleTimer = velocitySampleFrequency;
+        }
+        else
+        {
+            velocitySampleTimer -= Time.deltaTime;
+        }
     }
 }
