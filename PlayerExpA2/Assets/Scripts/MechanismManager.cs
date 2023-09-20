@@ -24,16 +24,22 @@ public class MechanismManager : MonoBehaviour
     [Header("Mechanism Variables")]
     [SerializeField] float sheildRegenMultiplier;
     [SerializeField] float oxygenFilteringMultiplier;
-    [SerializeField] float experimentMultiplier;
     [SerializeField] float shipCycleTime;
     [SerializeField] float oxygenLossPerCycle;
 
+    [Header ("Experiment Variables")]
+    [SerializeField] float experimentOptimalMulti;
+    [SerializeField] float experimentSuboptimalMulti;
+    [SerializeField] float optimalDeviation;
+    [SerializeField] float subOptimalDeviation;
+
     [Header("References")]
-    [SerializeField] TMP_Text shipPowerText; 
-    [SerializeField] TMP_Text oxygenQualityText; 
-    [SerializeField] TMP_Text sheildsText; 
     [SerializeField] TMP_Text shipHealthText;
-    [SerializeField] TMP_Text experimentText;
+
+    [SerializeField] UIMechanismManager powerUI;
+    [SerializeField] UIMechanismManager oxyFltrUI;
+    [SerializeField] UIMechanismManager sheildsUI;
+    [SerializeField] UIMechanismManager experimentUI;
 
     [SerializeField] string oxygenFilterTerminalName;
     [SerializeField] string sheildsTerminalName;
@@ -41,6 +47,7 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] List<GameObject> terminals = new List<GameObject>();
     [SerializeField] TerminalData hubTerminal;
+    [SerializeField] HubScreen hubScreen;
 
     float shipTimer;
 
@@ -51,12 +58,22 @@ public class MechanismManager : MonoBehaviour
     float sheildDraw;
     float experimentDraw;
 
+    float damageTakenThisCycle;
+
+    float experimentCycleChange;
+    float experimentOptimalRange;
+
     void Start()
     {
         shipPower = shipPowerTotal;
         oxygenQuality = oxygenQualityTotal;
         sheilds = sheildsTotal;
         shipHealth = shipHealthTotal;
+
+        powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f);
+        oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f);
+        sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f);
+        experimentUI.SetStartValues(experimentTotal, 0, 0f);
     }
 
     void Update()
@@ -79,11 +96,12 @@ public class MechanismManager : MonoBehaviour
 
         }
 
-        shipPowerText.text = "Ship Power: " + shipPower + " out of " + shipPowerTotal;
-        oxygenQualityText.text = "O2 Quality: " + oxygenQuality + " out of " + oxygenQualityTotal + " -- " + (oxygenFilteringDraw * oxygenFilteringMultiplier) + "-c regen";
-        sheildsText.text = "Shields: " + sheilds + " out of " + sheildsTotal + " -- " + (sheildDraw * sheildRegenMultiplier) + "-c regen";
         shipHealthText.text = "Health: " + shipHealth + " out of " + shipHealthTotal;
-        experimentText.text = "Experiment Complete: " + experiment + " out of " + experimentTotal;
+
+        powerUI.UpdateValues(shipPower, totalPowerDraw);
+        oxyFltrUI.UpdateValues(oxygenQuality, oxygenLossPerCycle);
+        sheildsUI.UpdateValues(sheilds, sheildDraw * sheildRegenMultiplier);
+        experimentUI.UpdateValues(experiment, experimentDraw * experimentOptimalMulti);
 
         ShipTimer();
         AsteroidHit();
@@ -99,6 +117,8 @@ public class MechanismManager : MonoBehaviour
             OxygenFiltering();
             Experiment();
 
+            hubScreen.UpdateHubDisplay();
+
             shipTimer = 0;
         }
         else
@@ -109,14 +129,12 @@ public class MechanismManager : MonoBehaviour
 
     void PowerDraw()
     {
-        for (int i = 0; i < hubTerminal.cellBatteryAmount.Count; i++)
+        totalPowerDraw = 0;
+        for (int i = 0; i < hubTerminal.activeCells.Count; i++)
         {
-            hubTerminal.cellBatteryAmount[i] -= hubTerminal.cellPowerDraw[i];
+            hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
 
-            if (hubTerminal.cellBatteryAmount[i] <= 0)
-            {
-                hubTerminal.cellBatteryAmount[i] = 0;
-            }
+            totalPowerDraw -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
         }
 
         shipPower = 0;
@@ -138,7 +156,9 @@ public class MechanismManager : MonoBehaviour
         {
             if (sheilds > 0)
             {
-                sheilds -= Random.Range(3, 8);
+                damageTakenThisCycle = Random.Range(3, 8);
+
+                sheilds -= damageTakenThisCycle;
                  
                 if (sheilds < 0)
                 {
@@ -148,7 +168,7 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                shipHealth -= Random.Range(3, 8);
+                shipHealth -= damageTakenThisCycle;
 
                 if (shipHealth <= 0)
                 {
@@ -214,11 +234,17 @@ public class MechanismManager : MonoBehaviour
 
     void Experiment()
     {
+        if (experimentCycleChange <= 0)
+        {
+            experimentOptimalRange = Random.Range(3, 7);
+
+
+        }
         if (experiment < experimentTotal)
         {
-            if ((experiment + experimentDraw * experimentMultiplier) < experimentTotal)
+            if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
             {
-                experiment += experimentDraw * experimentMultiplier;
+                experiment += experimentDraw * experimentOptimalMulti;
             }
             else
             {
