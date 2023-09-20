@@ -12729,7 +12729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipPowerTotal: 500
   oxygenQualityTotal: 100
-  sheildsTotal: 50
+  sheildsTotal: 100000
   shipHealthTotal: 50
   experimentTotal: 100
   totalPowerDraw: 0
