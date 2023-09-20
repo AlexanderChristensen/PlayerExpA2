@@ -74,6 +74,8 @@ public class MechanismManager : MonoBehaviour
     float velocitySampleTimer;
     float lastSampleVelocity;
 
+    bool oxygenDegrading;
+
     void Start()
     {
         shipPower = shipPowerTotal;
@@ -126,7 +128,7 @@ public class MechanismManager : MonoBehaviour
         {
             PowerDraw();
             SheildRegen();
-            OxygenDecrease();
+            //OxygenDecrease();
             OxygenFiltering();
             Experiment();
 
@@ -212,25 +214,27 @@ public class MechanismManager : MonoBehaviour
         }
     }
 
-    void OxygenDecrease()
-    {
+    //void OxygenDecrease()
+    //{
 
+    //    if (oxygenDegrading)
+    //    {
+    //        if (oxygenQuality > 0)
+    //        {
+    //            oxygenQuality -= oxygenLossPerCycle;
 
-        if (oxygenQuality > 0)
-        {
-            oxygenQuality -= oxygenLossPerCycle;
-
-            if (oxygenQuality < 0)
-            {
-                oxygenQuality = 0;
-            }
-        }
-        else
-        {
-            oxygenQuality = 0;
-            SceneManager.LoadScene("LoseScreen");
-        }
-    }
+    //            if (oxygenQuality < 0)
+    //            {
+    //                oxygenQuality = 0;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            oxygenQuality = 0;
+    //            SceneManager.LoadScene("LoseScreen");
+    //        }
+    //    }
+    //}
 
     void OxygenFiltering()
     {
@@ -304,13 +308,13 @@ public class MechanismManager : MonoBehaviour
         {
             float velocityDifference = Mathf.Abs(lastSampleVelocity - playerMovement.velocity);
 
-            if (velocityDifference > velocityAllowance)
+            if (velocityDifference < velocityAllowance)
             {
                 Debug.Log("maiantiang velocity");
             }
             else
             {
-                Debug.Log("Not maianting velocity");
+                oxygenQuality -= oxygenLossPerCycle;
             }
 
             lastSampleVelocity = playerMovement.velocity;
