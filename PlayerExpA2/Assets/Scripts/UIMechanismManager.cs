@@ -10,7 +10,8 @@ public class UIMechanismManager : MonoBehaviour
 
     [SerializeField] TMP_Text maxValueText;
     [SerializeField] TMP_Text currentValueText;
-    [SerializeField] TMP_Text cycleValueText;
+    [SerializeField] TMP_Text cycleDrainText;
+    [SerializeField] TMP_Text cycleRegenText;
 
     SliderController slider;
 
@@ -19,20 +20,22 @@ public class UIMechanismManager : MonoBehaviour
         slider = GetComponent<SliderController>();
     }
 
-    public void SetStartValues(float max, float start, float cycleChange)
+    public void SetStartValues(float max, float start, float cycleDrain, float cycleRegen)
     {
         slider.SetMaxValue(max, start);
 
         maxValueText.text = max + staticUnits;
         currentValueText.text = start + staticUnits;
-        cycleValueText.text = cycleChange + cycleUnits;
+        cycleDrainText.text = cycleDrain + cycleUnits;
+        cycleRegenText.text = cycleRegen + cycleUnits;
     }
 
-    public void UpdateValues(float current, float cycleCurrent)
+    public void UpdateValues(float current, float cycleDrain, float cycleRegen)
     {
         slider.UpdateSlider(current);
 
         currentValueText.text = current + staticUnits;
-        cycleValueText.text = cycleCurrent + cycleUnits;
+        cycleDrainText.text = "-" + cycleDrain + cycleUnits;
+        cycleRegenText.text = "+" + cycleRegen + cycleUnits;
     }
 }

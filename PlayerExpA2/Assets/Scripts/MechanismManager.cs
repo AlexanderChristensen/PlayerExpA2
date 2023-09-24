@@ -36,7 +36,7 @@ public class MechanismManager : MonoBehaviour
     [Header ("Experiment Variables")]
     [SerializeField] float experimentOptimalMulti;
     [SerializeField] float experimentSuboptimalMulti;
-    [SerializeField] float subOptimalDeviation;
+    public float subOptimalDeviation;
     [SerializeField] float cycleToChangeOptimal;
 
     [Header("References")]
@@ -64,15 +64,18 @@ public class MechanismManager : MonoBehaviour
 
     float oxygenFilteringDraw;
     float sheildDraw;
-    float experimentDraw;
+    [HideInInspector] public float experimentDraw;
 
     float damageTakenThisCycle;
 
     float experimentCycleChange;
-    float experimentOptimalRange;
+    [HideInInspector] public float experimentOptimalRange;
 
     float velocitySampleTimer;
     float lastSampleVelocity;
+
+    float oxygenFilteringRegen;
+    float oxygenFilteringDrain;
 
     bool oxygenDegrading;
 
@@ -83,10 +86,10 @@ public class MechanismManager : MonoBehaviour
         sheilds = sheildsTotal;
         shipHealth = shipHealthTotal;
 
-        powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f);
-        oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f);
-        sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f);
-        experimentUI.SetStartValues(experimentTotal, 0, 0f);
+        powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f, 0f);
+        oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f, 0f);
+        sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f, 0);
+        experimentUI.SetStartValues(experimentTotal, 0, 0f, 0);
     }
 
     void Update()
@@ -111,10 +114,10 @@ public class MechanismManager : MonoBehaviour
 
         shipHealthText.text = "Health: " + shipHealth + " out of " + shipHealthTotal;
 
-        powerUI.UpdateValues(shipPower, totalPowerDraw);
-        oxyFltrUI.UpdateValues(oxygenQuality, oxygenLossPerCycle);
-        sheildsUI.UpdateValues(sheilds, sheildDraw * sheildRegenMultiplier);
-        experimentUI.UpdateValues(experiment, experimentDraw * experimentOptimalMulti);
+        powerUI.UpdateValues(shipPower, totalPowerDraw, 0);
+        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain, oxygenFilteringRegen);
+        sheildsUI.UpdateValues(sheilds, 0,sheildDraw * sheildRegenMultiplier);
+        experimentUI.UpdateValues(experiment, 0,experimentDraw * experimentOptimalMulti);
 
         ShipTimer();
         AsteroidHit();
@@ -242,7 +245,8 @@ public class MechanismManager : MonoBehaviour
         {
             if ((oxygenQuality + oxygenFilteringDraw * oxygenFilteringMultiplier) < oxygenQualityTotal)
             {
-                oxygenQuality += oxygenFilteringDraw * oxygenFilteringMultiplier;
+                oxygenFilteringRegen = oxygenFilteringDraw * oxygenFilteringMultiplier;
+                oxygenQuality += oxygenFilteringRegen;
             }
             else
             {
@@ -255,9 +259,6 @@ public class MechanismManager : MonoBehaviour
     {
         SetOptimalValue();
 
-        Debug.Log("the optimal wattage: " + experimentOptimalRange);
-
-        
         if (experiment < experimentTotal)
         {
             if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
@@ -292,7 +293,7 @@ public class MechanismManager : MonoBehaviour
     {
         if (experimentCycleChange <= 0)
         {
-            experimentOptimalRange = Random.Range(3, 7);
+            experimentOptimalRange = Random.Range(2, 8);
 
             experimentCycleChange = cycleToChangeOptimal;
         }
@@ -311,10 +312,12 @@ public class MechanismManager : MonoBehaviour
             if (velocityDifference < velocityAllowance)
             {
                 Debug.Log("maiantiang velocity");
+                oxygenFilteringDrain = 0;
             }
             else
             {
-                oxygenQuality -= oxygenLossPerCycle;
+                oxygenFilteringDrain = oxygenLossPerCycle;
+                oxygenQuality -= oxygenFilteringDrain;
             }
 
             lastSampleVelocity = playerMovement.velocity;
