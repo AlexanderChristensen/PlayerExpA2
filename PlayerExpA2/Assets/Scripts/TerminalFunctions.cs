@@ -104,8 +104,16 @@ public class TerminalFunctions
                             {
                                 if (hubData.batteryCells[cellNumber] == "unconnected")
                                 {
-                                    hubData.batteryCells[cellNumber] = "system " + systemNumber;
-                                    return;
+                                    if (hubData.cellBatteryAmount[cellNumber] > 0)
+                                    {
+                                        hubData.batteryCells[cellNumber] = "system " + systemNumber;
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        MoveUpLine(textBoxCol1, textBoxCol2);
+                                        textBoxCol1.text += "this cell is drained";
+                                    }
                                 }
                                 else
                                 {

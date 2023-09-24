@@ -2167,7 +2167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: numberOfSystems
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: mechanismManager
@@ -15394,7 +15394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: numberOfSystems
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7698571771326087008, guid: 080909deea7ff094bb11641ec8c333d8, type: 3}
       propertyPath: mechanismManager

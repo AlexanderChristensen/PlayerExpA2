@@ -148,13 +148,24 @@ public class MechanismManager : MonoBehaviour
     void PowerDraw()
     {
         totalPowerDraw = 0;
-        for (int i = 0; i < hubTerminal.activeCells.Count; i++)
+
+        if (hubTerminal.activeCells.Count > 0)
         {
-            hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
+            for (int i = 0; i < hubTerminal.activeCells.Count; i++)
+            {
+                hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
 
-            totalPowerDraw -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
+                //if (hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] <= 0)
+                //{
+                //    hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] = 0;
+                //    hubTerminal.activeCells.RemoveAt(i);
+                //    hubTerminal.batteryCells.RemoveAt(hubTerminal.activeCells[i]);
+                //}
+
+                totalPowerDraw -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
+            }
         }
-
+        
         shipPower = 0;
 
         foreach (float cell in hubTerminal.cellBatteryAmount)

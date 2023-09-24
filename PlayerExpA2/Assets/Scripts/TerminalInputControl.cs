@@ -27,6 +27,8 @@ public class TerminalInputControl : MonoBehaviour
     float totalPowerDraw;
     float tempTotalPowerDraw;
 
+    bool cellAdded;
+
     private void Start()
     {
         terminalData = GetComponent<TerminalData>();
@@ -145,17 +147,44 @@ public class TerminalInputControl : MonoBehaviour
                     {
                         if (int.Parse(terminalData.avaliableSystems[i].Substring(terminalData.avaliableSystems[i].Length - 1, 1)) == int.Parse(hubTerminal.batteryCells[o].Substring(hubTerminal.batteryCells[o].Length - 1, 1)))
                         {
-                            totalPowerDraw += hubTerminal.cellPowerDraw[o];
-
-                            for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                            if (hubTerminal.cellBatteryAmount[o] > 0)
                             {
-                                if (hubTerminal.activeCells[p]  == o)
-                                { 
-                                    return;  
+
+                                totalPowerDraw += hubTerminal.cellPowerDraw[o];
+
+                                for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                                {
+                                    if (hubTerminal.activeCells[p] == o)
+                                    {
+                                        cellAdded = true;
+                                    }
+                                }
+
+                                if (!cellAdded)
+                                {
+                                    hubTerminal.activeCells.Add(o);
                                 }
                             }
+                            else
+                            {
+                                hubTerminal.cellPowerDraw[o] = 0;
+                                hubTerminal.cellBatteryAmount[o] = 0;
 
-                            hubTerminal.activeCells.Add(o);
+                                for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                                {
+                                    if (hubTerminal.activeCells[p] == o)
+                                    {
+                                        hubTerminal.activeCells.RemoveAt(p);
+
+                                    }
+                                }
+                                hubTerminal.batteryCells[o] = "unconnected";
+                                cellAdded = false;
+
+                                onlinePowerDraw = 0;
+
+                                return;
+                            }
                         }
                     }
                 }
@@ -191,6 +220,10 @@ public class TerminalInputControl : MonoBehaviour
         //{
         //    onlinePowerDraw = 0;
         //}
+    }
+
+    void CheckBatteryNotDrained()
+    { 
     }
 
     void UpdateHubCellDraw()
