@@ -62,8 +62,8 @@ public class MechanismManager : MonoBehaviour
     float powerDrawTimer;
     float asteroidHitTimer;
 
-    float oxygenFilteringDraw;
-    float sheildDraw;
+    [HideInInspector] public float oxygenFilteringDraw;
+    [HideInInspector] public float sheildDraw;
     [HideInInspector] public float experimentDraw;
 
     float damageTakenThisCycle;
