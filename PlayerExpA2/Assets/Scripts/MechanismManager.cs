@@ -31,7 +31,7 @@ public class MechanismManager : MonoBehaviour
     [SerializeField] float oxygenFilteringMultiplier;
     [SerializeField] float oxygenLossPerCycle;
     [SerializeField] float velocitySampleRate;
-    [SerializeField] float velocityAllowance;
+    public float velocityAllowance;
 
     [Header ("Experiment Variables")]
     [SerializeField] float experimentOptimalMulti;
@@ -72,7 +72,7 @@ public class MechanismManager : MonoBehaviour
     [HideInInspector] public float experimentOptimalRange;
 
     float velocitySampleTimer;
-    float lastSampleVelocity;
+    [HideInInspector] public float lastSampleVelocity;
 
     float oxygenFilteringRegen;
     float oxygenFilteringDrain;
