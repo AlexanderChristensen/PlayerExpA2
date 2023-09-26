@@ -22,17 +22,16 @@ public class HUDTerminalDots : MonoBehaviour
     {
         if (mechanismManager.oxygenFilteringDraw > 0)
         {
-            dot1Image.sprite = dot1Sprites[1];
 
-            //if (hubTerminal.cellBatteryAmount[terminal[0].activeCells[0]] < (mechanismManager.shipPowerTotal/hubTerminal.batteryCellCount)/2)
-            //{
-            //    dot1Image.sprite = dot1Sprites[2];
-            //}
-            //else
-            //{
+            if (hubTerminal.cellBatteryAmount[terminal[0].activeCells[0]] < (mechanismManager.shipPowerTotal / hubTerminal.batteryCellCount) / 2)
+            {
+                dot1Image.sprite = dot1Sprites[2];
+            }
+            else
+            {
+                dot1Image.sprite = dot1Sprites[1];
+            }
 
-            //}
-            
         }
         else
         {

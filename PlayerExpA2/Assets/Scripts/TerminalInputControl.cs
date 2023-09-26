@@ -163,6 +163,7 @@ public class TerminalInputControl : MonoBehaviour
                                 if (!cellAdded)
                                 {
                                     hubTerminal.activeCells.Add(o);
+                                    terminalData.activeCells.Add(o);
                                 }
                             }
                             else
@@ -175,6 +176,7 @@ public class TerminalInputControl : MonoBehaviour
                                     if (hubTerminal.activeCells[p] == o)
                                     {
                                         hubTerminal.activeCells.RemoveAt(p);
+                                        terminalData.activeCells.RemoveAt(0);
 
                                     }
                                 }
