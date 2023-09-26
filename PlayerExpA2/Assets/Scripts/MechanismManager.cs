@@ -26,6 +26,16 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] float shipCycleTime;
 
+    [Header("Damage Variables")]
+    [SerializeField] float minDamage;
+    [SerializeField] float maxDamage;
+    [SerializeField] float damageDeviation;
+    float damageCurrent;
+
+    [SerializeField] float minFrequency;
+    [SerializeField] float maxFrequency;
+    [SerializeField] float frequencyDeviation;
+    float frequencyCurrent;
 
     [Header ("Oxyge Filtering Variuables")]
     [SerializeField] float oxygenFilteringMultiplier;
@@ -56,6 +66,8 @@ public class MechanismManager : MonoBehaviour
     [SerializeField] HubScreen hubScreen;
 
     [SerializeField] GrappleMovement playerMovement;
+
+    [SerializeField] CameraShakeController camShake;
 
     float shipTimer;
 
@@ -181,13 +193,19 @@ public class MechanismManager : MonoBehaviour
 
     void AsteroidHit()
     {
-        if (asteroidHitTimer >= Random.Range(3,5))
+        frequencyCurrent = ((minFrequency / maxFrequency) * experiment) + minFrequency;
+
+        if (asteroidHitTimer <= 0)
         {
             if (sheilds > 0)
             {
-                damageTakenThisCycle = Random.Range(3, 8);
+                damageCurrent = ((minDamage / maxDamage) * experiment) + minDamage;
+
+                damageTakenThisCycle = Mathf.Round(damageCurrent + Random.Range(-damageDeviation, damageDeviation));
 
                 sheilds -= damageTakenThisCycle;
+
+                camShake.ShakeCamera(5f, 0.2f);
                  
                 if (sheilds < 0)
                 {
@@ -205,12 +223,17 @@ public class MechanismManager : MonoBehaviour
                 }
             }
 
-            asteroidHitTimer = 0;
+            asteroidHitTimer = Mathf.Round(frequencyCurrent + Random.Range(-frequencyDeviation, frequencyDeviation));
         }
         else
         {
-            asteroidHitTimer += Time.deltaTime;
+            asteroidHitTimer -= Time.deltaTime;
         }
+    }
+
+    void SetCurrentDamageAndFrequency()
+    {
+
     }
 
     void SheildRegen()
@@ -322,7 +345,6 @@ public class MechanismManager : MonoBehaviour
 
             if (velocityDifference < velocityAllowance)
             {
-                Debug.Log("maiantiang velocity");
                 oxygenFilteringDrain = 0;
             }
             else

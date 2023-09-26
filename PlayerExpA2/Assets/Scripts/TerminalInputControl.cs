@@ -149,7 +149,7 @@ public class TerminalInputControl : MonoBehaviour
                         {
                             if (hubTerminal.cellBatteryAmount[o] > 0)
                             {
-
+                                Debug.Log("shoudl update powerdraw");
                                 totalPowerDraw += hubTerminal.cellPowerDraw[o];
 
                                 for (int p = 0; p < hubTerminal.activeCells.Count; p++)
@@ -184,6 +184,8 @@ public class TerminalInputControl : MonoBehaviour
                                 cellAdded = false;
 
                                 onlinePowerDraw = 0;
+
+                                terminalData.systemsOnline--;
 
                                 return;
                             }

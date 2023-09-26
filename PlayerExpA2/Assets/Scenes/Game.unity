@@ -942,6 +942,7 @@ GameObject:
   - component: {fileID: 107587741}
   - component: {fileID: 107587740}
   - component: {fileID: 107587739}
+  - component: {fileID: 107587742}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1025,6 +1026,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &107587742
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107587737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &117967317
 GameObject:
   m_ObjectHideFlags: 0
@@ -8316,9 +8334,11 @@ MonoBehaviour:
   dot2Sprites:
   - {fileID: 21300000, guid: ffa1426535aa2ff408b3b6455ae1cffc, type: 3}
   - {fileID: 21300000, guid: eedc04197eaa2f24fbf6898e0aa091ee, type: 3}
+  - {fileID: 21300000, guid: 539fce73016de4b4798d68930a18dc19, type: 3}
   dot3Sprites:
   - {fileID: 21300000, guid: b18c9bbd60dd4b049adf14ef55872d80, type: 3}
   - {fileID: 21300000, guid: 6a47bc1a83421964abf11582d50d1ae0, type: 3}
+  - {fileID: 21300000, guid: 827943621f685e4488c83350fff6a834, type: 3}
   dot1Image: {fileID: 1611722613}
   dot2Image: {fileID: 1675974250}
   dot3Image: {fileID: 1190667097}
@@ -14413,6 +14433,7 @@ GameObject:
   - component: {fileID: 1935391040}
   - component: {fileID: 1935391041}
   - component: {fileID: 1935391042}
+  - component: {fileID: 1935391043}
   m_Layer: 0
   m_Name: vcam1
   m_TagString: Untagged
@@ -14490,6 +14511,18 @@ MonoBehaviour:
   sensY: 400
   orientation: {fileID: 1681014462}
   player: {fileID: 23356833}
+--- !u!114 &1935391043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935391039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2b0669a2db15b48a33fa67c70baf5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1937212824
 GameObject:
   m_ObjectHideFlags: 0
@@ -15605,10 +15638,16 @@ MonoBehaviour:
   experiment: 0
   sheildRegenMultiplier: 0
   shipCycleTime: 2
+  minDamage: 10
+  maxDamage: 50
+  damageDeviation: 2
+  minFrequency: 8
+  maxFrequency: 2
+  frequencyDeviation: 1
   oxygenFilteringMultiplier: 1
-  oxygenLossPerCycle: 0.25
+  oxygenLossPerCycle: 1
   velocitySampleRate: 1
-  velocityAllowance: 2.5
+  velocityAllowance: 1.5
   experimentOptimalMulti: 1
   experimentSuboptimalMulti: 0.5
   subOptimalDeviation: 1
@@ -15628,6 +15667,7 @@ MonoBehaviour:
   hubTerminal: {fileID: 117967325}
   hubScreen: {fileID: 117967326}
   playerMovement: {fileID: 23356836}
+  camShake: {fileID: 1935391043}
   oxygenFilteringDraw: 0
   sheildDraw: 0
   experimentDraw: 0
