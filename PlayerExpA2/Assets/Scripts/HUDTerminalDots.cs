@@ -20,7 +20,7 @@ public class HUDTerminalDots : MonoBehaviour
 
     void Update()
     {
-        if (mechanismManager.oxygenFilteringDraw > 0)
+        if (mechanismManager.oxygenFilteringDraw > 0 && terminal[0].activeCells.Count > 0)
         {
             if (hubTerminal.cellBatteryAmount[terminal[0].activeCells[0]] < (mechanismManager.shipPowerTotal / hubTerminal.batteryCellCount) / 2)
             {
@@ -36,7 +36,7 @@ public class HUDTerminalDots : MonoBehaviour
             dot1Image.sprite = dot1Sprites[0];
         }
 
-        if (mechanismManager.sheildDraw > 0)
+        if (mechanismManager.sheildDraw > 0 && terminal[1].activeCells.Count > 0)
         {
             if (hubTerminal.cellBatteryAmount[terminal[1].activeCells[0]] < (mechanismManager.shipPowerTotal / hubTerminal.batteryCellCount) / 2)
             {
@@ -52,7 +52,7 @@ public class HUDTerminalDots : MonoBehaviour
             dot2Image.sprite = dot2Sprites[0];
         }
 
-        if (mechanismManager.experimentDraw > 0)
+        if (mechanismManager.experimentDraw > 0 && terminal[2].activeCells.Count > 0)
         {
             if (hubTerminal.cellBatteryAmount[terminal[2].activeCells[0]] < (mechanismManager.shipPowerTotal / hubTerminal.batteryCellCount) / 2)
             {

@@ -72,7 +72,7 @@ public class TerminalInputControl : MonoBehaviour
         if (inputIndcFunc[0] == "help")
         {
             textBoxCol1.text += "\nls\ncelldir\npowerdir\n";
-            textBoxCol2.text += "\nadjst\nclr\nlink\nexit\n";
+            textBoxCol2.text += "\nadjst\nlink\nexit\n";
         }
         else if (inputIndcFunc[0] == "exit")
         {
@@ -102,11 +102,11 @@ public class TerminalInputControl : MonoBehaviour
                 }
             }
         }
-        else if (inputIndcFunc[0] == "clr")
-        {
-            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
-            hubScreen.UpdateHubDisplay();
-        }
+        //else if (inputIndcFunc[0] == "clr")
+        //{
+        //    terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+        //    hubScreen.UpdateHubDisplay();
+        //}
         else if (inputIndcFunc[0] == "link")
         {
             terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
