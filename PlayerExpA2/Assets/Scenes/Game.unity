@@ -15231,8 +15231,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283120949
+  m_fontColor: {r: 0.20784315, g: 0.2392157, b: 0.29411766, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15249,8 +15249,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.84
-  m_fontSizeBase: 37.84
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -16618,14 +16618,16 @@ MonoBehaviour:
   minFrequency: 8
   maxFrequency: 2
   frequencyDeviation: 1
-  oxygenFilteringMultiplier: 1
-  oxygenLossPerCycle: 1
+  oxygenFilteringMultiplier: 0.5
+  oxygenLossPerCycle: 2
+  oxygenLossPassive: 0.2
   velocitySampleRate: 1
   velocityAllowance: 1.5
-  experimentOptimalMulti: 1
-  experimentSuboptimalMulti: 0.5
+  experimentOptimalMulti: 0.5
+  experimentSuboptimalMulti: 0.2
+  experimentLowMulti: 0.1
   subOptimalDeviation: 1
-  cycleToChangeOptimal: 10
+  cycleToChangeOptimal: 15
   powerUI: {fileID: 1293551193}
   oxyFltrUI: {fileID: 1993928815}
   sheildsUI: {fileID: 875857358}

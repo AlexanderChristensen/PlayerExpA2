@@ -41,12 +41,15 @@ public class MechanismManager : MonoBehaviour
     [Header ("Oxyge Filtering Variuables")]
     [SerializeField] float oxygenFilteringMultiplier;
     [SerializeField] float oxygenLossPerCycle;
+    [SerializeField] float oxygenLossPassive;
     [SerializeField] float velocitySampleRate;
     public float velocityAllowance;
 
     [Header ("Experiment Variables")]
     [SerializeField] float experimentOptimalMulti;
     [SerializeField] float experimentSuboptimalMulti;
+    [SerializeField] float experimentLowMulti;
+
     public float subOptimalDeviation;
     [SerializeField] float cycleToChangeOptimal;
 
@@ -91,6 +94,8 @@ public class MechanismManager : MonoBehaviour
     float oxygenFilteringRegen;
     float oxygenFilteringDrain;
 
+    float experimentIncrease;
+
     bool oxygenDegrading;
 
     void Start()
@@ -131,10 +136,13 @@ public class MechanismManager : MonoBehaviour
         }
 
         powerUI.UpdateValues(shipPower, -1 * totalPowerDraw, 0);
-        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain, oxygenFilteringRegen);
+
+        oxygenQuality = Mathf.Round(oxygenQuality * 100)/100;
+
+        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain + oxygenLossPassive, oxygenFilteringRegen);
         sheildsUI.UpdateValues(sheilds, damageTakenThisCycle, sheildDraw * sheildRegenMultiplier);
         shipHealthUI.UpdateValues(shipHealth, 0, 0);
-        experimentUI.UpdateValues(experiment, 0,experimentDraw * experimentOptimalMulti);
+        experimentUI.UpdateValues(experiment, 0, experimentIncrease);
 
         ShipTimer();
         AsteroidHit();
@@ -148,7 +156,7 @@ public class MechanismManager : MonoBehaviour
         {
             PowerDraw();
             SheildRegen();
-            //OxygenDecrease();
+            OxygenDecrease();
             OxygenFiltering();
             Experiment();
 
@@ -253,27 +261,23 @@ public class MechanismManager : MonoBehaviour
         }
     }
 
-    //void OxygenDecrease()
-    //{
+    void OxygenDecrease()
+    {
+        if (oxygenQuality > 0)
+        {
+            oxygenQuality -= oxygenLossPassive;
 
-    //    if (oxygenDegrading)
-    //    {
-    //        if (oxygenQuality > 0)
-    //        {
-    //            oxygenQuality -= oxygenLossPerCycle;
-
-    //            if (oxygenQuality < 0)
-    //            {
-    //                oxygenQuality = 0;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            oxygenQuality = 0;
-    //            SceneManager.LoadScene("LoseScreen");
-    //        }
-    //    }
-    //}
+            if (oxygenQuality < 0)
+            {
+                oxygenQuality = 0;
+            }
+        }
+        else
+        {
+            oxygenQuality = 0;
+            SceneManager.LoadScene("LoseScreen");
+        }
+    }
 
     void OxygenFiltering()
     {
@@ -304,12 +308,23 @@ public class MechanismManager : MonoBehaviour
                 {
                     if (experimentDraw == experimentOptimalRange)
                     {
-                        experiment += experimentOptimalMulti;
+                        experimentIncrease = experimentOptimalMulti * experimentDraw;
+                        experiment += experimentIncrease;
                     }
                     else
                     {
-                        experiment += experimentSuboptimalMulti;
+                        experimentIncrease = experimentSuboptimalMulti * experimentDraw;
+                        experiment += experimentIncrease;
                     }
+                }
+                else if (experimentDraw > 0)
+                {
+                    experimentIncrease = experimentLowMulti * experimentDraw;
+                    experiment += experimentIncrease;
+                }
+                else
+                {
+                    experimentIncrease = 0;
                 }
                 
             }
@@ -351,7 +366,7 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                oxygenFilteringDrain = oxygenLossPerCycle;
+                oxygenFilteringDrain += oxygenLossPerCycle;
                 oxygenQuality -= oxygenFilteringDrain;
             }
 

@@ -113,12 +113,14 @@ public class TerminalFunctions
                                     {
                                         MoveUpLine(textBoxCol1, textBoxCol2);
                                         textBoxCol1.text += "this cell is drained";
+                                        return;
                                     }
                                 }
                                 else
                                 {
                                     MoveUpLine(textBoxCol1, textBoxCol2);
                                     textBoxCol1.text += "this system is already connected to this cell";
+                                    return;
                                 }
                             }
                             else
