@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MechanismManager : MonoBehaviour
 {
@@ -50,12 +51,11 @@ public class MechanismManager : MonoBehaviour
     [SerializeField] float cycleToChangeOptimal;
 
     [Header("References")]
-    [SerializeField] TMP_Text shipHealthText;
-
     [SerializeField] UIMechanismManager powerUI;
     [SerializeField] UIMechanismManager oxyFltrUI;
     [SerializeField] UIMechanismManager sheildsUI;
     [SerializeField] UIMechanismManager experimentUI;
+    [SerializeField] UIMechanismManager shipHealthUI;
 
     [SerializeField] string oxygenFilterTerminalName;
     [SerializeField] string sheildsTerminalName;
@@ -68,6 +68,8 @@ public class MechanismManager : MonoBehaviour
     [SerializeField] GrappleMovement playerMovement;
 
     [SerializeField] CameraShakeController camShake;
+
+    [SerializeField] Image cycleImage;
 
     float shipTimer;
 
@@ -101,7 +103,11 @@ public class MechanismManager : MonoBehaviour
         powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f, 0f);
         oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f, 0f);
         sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f, 0);
+        shipHealthUI.SetStartValues(shipHealthTotal, shipHealthTotal, 0f, 0);
         experimentUI.SetStartValues(experimentTotal, 0, 0f, 0);
+
+        frequencyCurrent = ((minFrequency / maxFrequency) * experiment) + minFrequency;
+        asteroidHitTimer = Mathf.Round(frequencyCurrent + Random.Range(-frequencyDeviation, frequencyDeviation));
     }
 
     void Update()
@@ -124,11 +130,10 @@ public class MechanismManager : MonoBehaviour
 
         }
 
-        shipHealthText.text = "Health: " + shipHealth + " out of " + shipHealthTotal;
-
-        powerUI.UpdateValues(shipPower, totalPowerDraw, 0);
+        powerUI.UpdateValues(shipPower, -1 * totalPowerDraw, 0);
         oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain, oxygenFilteringRegen);
-        sheildsUI.UpdateValues(sheilds, 0,sheildDraw * sheildRegenMultiplier);
+        sheildsUI.UpdateValues(sheilds, damageTakenThisCycle, sheildDraw * sheildRegenMultiplier);
+        shipHealthUI.UpdateValues(shipHealth, 0, 0);
         experimentUI.UpdateValues(experiment, 0,experimentDraw * experimentOptimalMulti);
 
         ShipTimer();
@@ -154,6 +159,8 @@ public class MechanismManager : MonoBehaviour
         else
         {
             shipTimer += Time.deltaTime;
+
+            cycleImage.color = new Color(1, 1, 1, shipTimer / shipCycleTime);
         }
     }
 
@@ -229,11 +236,6 @@ public class MechanismManager : MonoBehaviour
         {
             asteroidHitTimer -= Time.deltaTime;
         }
-    }
-
-    void SetCurrentDamageAndFrequency()
-    {
-
     }
 
     void SheildRegen()
@@ -327,7 +329,7 @@ public class MechanismManager : MonoBehaviour
     {
         if (experimentCycleChange <= 0)
         {
-            experimentOptimalRange = Random.Range(2, 8);
+            experimentOptimalRange = Random.Range(1, 5);
 
             experimentCycleChange = cycleToChangeOptimal;
         }

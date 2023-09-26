@@ -221,7 +221,7 @@ public class TerminalFunctions
                                     terminalData.systemsOnline++;
                                 }
 
-                                if (powerChange <= 9)
+                                if (powerChange <= 5)
                                 {
                                     hubData.cellPowerDraw[i] = powerChange;
                                     return;
@@ -229,11 +229,11 @@ public class TerminalFunctions
                                 else
                                 {
                                     MoveUpLine(textBoxCol1, textBoxCol2);
-                                    textBoxCol1.text += "warning: the power maximum is 9";
+                                    textBoxCol1.text += "warning: the power maximum is 5";
                                     MoveUpLine(textBoxCol1, textBoxCol2);
-                                    textBoxCol1.text += "the power has been set to 9";
+                                    textBoxCol1.text += "the power has been set to 5";
 
-                                    hubData.cellPowerDraw[i] = 9;
+                                    hubData.cellPowerDraw[i] = 5;
                                     return;
                                 }
                             }
