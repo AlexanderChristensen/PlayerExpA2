@@ -23,17 +23,29 @@ public class MechanismManager : MonoBehaviour
 
     [Header("Mechanism Variables")]
     [SerializeField] float sheildRegenMultiplier;
-    [SerializeField] float oxygenFilteringMultiplier;
-    [SerializeField] float experimentMultiplier;
+
     [SerializeField] float shipCycleTime;
+
+
+    [Header ("Oxyge Filtering Variuables")]
+    [SerializeField] float oxygenFilteringMultiplier;
     [SerializeField] float oxygenLossPerCycle;
+    [SerializeField] float velocitySampleRate;
+    [SerializeField] float velocityAllowance;
+
+    [Header ("Experiment Variables")]
+    [SerializeField] float experimentOptimalMulti;
+    [SerializeField] float experimentSuboptimalMulti;
+    public float subOptimalDeviation;
+    [SerializeField] float cycleToChangeOptimal;
 
     [Header("References")]
-    [SerializeField] TMP_Text shipPowerText; 
-    [SerializeField] TMP_Text oxygenQualityText; 
-    [SerializeField] TMP_Text sheildsText; 
     [SerializeField] TMP_Text shipHealthText;
-    [SerializeField] TMP_Text experimentText;
+
+    [SerializeField] UIMechanismManager powerUI;
+    [SerializeField] UIMechanismManager oxyFltrUI;
+    [SerializeField] UIMechanismManager sheildsUI;
+    [SerializeField] UIMechanismManager experimentUI;
 
     [SerializeField] string oxygenFilterTerminalName;
     [SerializeField] string sheildsTerminalName;
@@ -41,6 +53,9 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] List<GameObject> terminals = new List<GameObject>();
     [SerializeField] TerminalData hubTerminal;
+    [SerializeField] HubScreen hubScreen;
+
+    [SerializeField] GrappleMovement playerMovement;
 
     float shipTimer;
 
@@ -49,7 +64,20 @@ public class MechanismManager : MonoBehaviour
 
     float oxygenFilteringDraw;
     float sheildDraw;
-    float experimentDraw;
+    [HideInInspector] public float experimentDraw;
+
+    float damageTakenThisCycle;
+
+    float experimentCycleChange;
+    [HideInInspector] public float experimentOptimalRange;
+
+    float velocitySampleTimer;
+    float lastSampleVelocity;
+
+    float oxygenFilteringRegen;
+    float oxygenFilteringDrain;
+
+    bool oxygenDegrading;
 
     void Start()
     {
@@ -57,6 +85,11 @@ public class MechanismManager : MonoBehaviour
         oxygenQuality = oxygenQualityTotal;
         sheilds = sheildsTotal;
         shipHealth = shipHealthTotal;
+
+        powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f, 0f);
+        oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f, 0f);
+        sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f, 0);
+        experimentUI.SetStartValues(experimentTotal, 0, 0f, 0);
     }
 
     void Update()
@@ -79,14 +112,17 @@ public class MechanismManager : MonoBehaviour
 
         }
 
-        shipPowerText.text = "Ship Power: " + shipPower + " out of " + shipPowerTotal;
-        oxygenQualityText.text = "O2 Quality: " + oxygenQuality + " out of " + oxygenQualityTotal + " -- " + (oxygenFilteringDraw * oxygenFilteringMultiplier) + "-c regen";
-        sheildsText.text = "Shields: " + sheilds + " out of " + sheildsTotal + " -- " + (sheildDraw * sheildRegenMultiplier) + "-c regen";
         shipHealthText.text = "Health: " + shipHealth + " out of " + shipHealthTotal;
-        experimentText.text = "Experiment Complete: " + experiment + " out of " + experimentTotal;
+
+        powerUI.UpdateValues(shipPower, totalPowerDraw, 0);
+        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain, oxygenFilteringRegen);
+        sheildsUI.UpdateValues(sheilds, 0,sheildDraw * sheildRegenMultiplier);
+        experimentUI.UpdateValues(experiment, 0,experimentDraw * experimentOptimalMulti);
 
         ShipTimer();
         AsteroidHit();
+
+        SampleVelocity();
     }
 
     void ShipTimer()
@@ -95,9 +131,11 @@ public class MechanismManager : MonoBehaviour
         {
             PowerDraw();
             SheildRegen();
-            OxygenDecrease();
+            //OxygenDecrease();
             OxygenFiltering();
             Experiment();
+
+            hubScreen.UpdateHubDisplay();
 
             shipTimer = 0;
         }
@@ -109,16 +147,25 @@ public class MechanismManager : MonoBehaviour
 
     void PowerDraw()
     {
-        for (int i = 0; i < hubTerminal.cellBatteryAmount.Count; i++)
-        {
-            hubTerminal.cellBatteryAmount[i] -= hubTerminal.cellPowerDraw[i];
+        totalPowerDraw = 0;
 
-            if (hubTerminal.cellBatteryAmount[i] <= 0)
+        if (hubTerminal.activeCells.Count > 0)
+        {
+            for (int i = 0; i < hubTerminal.activeCells.Count; i++)
             {
-                hubTerminal.cellBatteryAmount[i] = 0;
+                hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
+
+                //if (hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] <= 0)
+                //{
+                //    hubTerminal.cellBatteryAmount[hubTerminal.activeCells[i]] = 0;
+                //    hubTerminal.activeCells.RemoveAt(i);
+                //    hubTerminal.batteryCells.RemoveAt(hubTerminal.activeCells[i]);
+                //}
+
+                totalPowerDraw -= hubTerminal.cellPowerDraw[hubTerminal.activeCells[i]];
             }
         }
-
+        
         shipPower = 0;
 
         foreach (float cell in hubTerminal.cellBatteryAmount)
@@ -138,7 +185,9 @@ public class MechanismManager : MonoBehaviour
         {
             if (sheilds > 0)
             {
-                sheilds -= Random.Range(3, 8);
+                damageTakenThisCycle = Random.Range(3, 8);
+
+                sheilds -= damageTakenThisCycle;
                  
                 if (sheilds < 0)
                 {
@@ -148,7 +197,7 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                shipHealth -= Random.Range(3, 8);
+                shipHealth -= damageTakenThisCycle;
 
                 if (shipHealth <= 0)
                 {
@@ -179,23 +228,27 @@ public class MechanismManager : MonoBehaviour
         }
     }
 
-    void OxygenDecrease()
-    {
-        if (oxygenQuality > 0)
-        {
-            oxygenQuality -= oxygenLossPerCycle;
+    //void OxygenDecrease()
+    //{
 
-            if (oxygenQuality < 0)
-            {
-                oxygenQuality = 0;
-            }
-        }
-        else
-        {
-            oxygenQuality = 0;
-            SceneManager.LoadScene("LoseScreen");
-        }
-    }
+    //    if (oxygenDegrading)
+    //    {
+    //        if (oxygenQuality > 0)
+    //        {
+    //            oxygenQuality -= oxygenLossPerCycle;
+
+    //            if (oxygenQuality < 0)
+    //            {
+    //                oxygenQuality = 0;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            oxygenQuality = 0;
+    //            SceneManager.LoadScene("LoseScreen");
+    //        }
+    //    }
+    //}
 
     void OxygenFiltering()
     {
@@ -203,7 +256,8 @@ public class MechanismManager : MonoBehaviour
         {
             if ((oxygenQuality + oxygenFilteringDraw * oxygenFilteringMultiplier) < oxygenQualityTotal)
             {
-                oxygenQuality += oxygenFilteringDraw * oxygenFilteringMultiplier;
+                oxygenFilteringRegen = oxygenFilteringDraw * oxygenFilteringMultiplier;
+                oxygenQuality += oxygenFilteringRegen;
             }
             else
             {
@@ -214,11 +268,25 @@ public class MechanismManager : MonoBehaviour
 
     void Experiment()
     {
+        SetOptimalValue();
+
         if (experiment < experimentTotal)
         {
-            if ((experiment + experimentDraw * experimentMultiplier) < experimentTotal)
+            if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
             {
-                experiment += experimentDraw * experimentMultiplier;
+
+                if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
+                {
+                    if (experimentDraw == experimentOptimalRange)
+                    {
+                        experiment += experimentOptimalMulti;
+                    }
+                    else
+                    {
+                        experiment += experimentSuboptimalMulti;
+                    }
+                }
+                
             }
             else
             {
@@ -229,6 +297,47 @@ public class MechanismManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene("WinScreen");
+        }
+    }
+
+    void SetOptimalValue()
+    {
+        if (experimentCycleChange <= 0)
+        {
+            experimentOptimalRange = Random.Range(2, 8);
+
+            experimentCycleChange = cycleToChangeOptimal;
+        }
+        else
+        {
+            experimentCycleChange--;
+        }
+    }
+
+    void SampleVelocity()
+    {
+        if (velocitySampleTimer <= 0)
+        {
+            float velocityDifference = Mathf.Abs(lastSampleVelocity - playerMovement.velocity);
+
+            if (velocityDifference < velocityAllowance)
+            {
+                Debug.Log("maiantiang velocity");
+                oxygenFilteringDrain = 0;
+            }
+            else
+            {
+                oxygenFilteringDrain = oxygenLossPerCycle;
+                oxygenQuality -= oxygenFilteringDrain;
+            }
+
+            lastSampleVelocity = playerMovement.velocity;
+
+            velocitySampleTimer = velocitySampleRate;
+        }
+        else
+        {
+            velocitySampleTimer -= Time.deltaTime;
         }
     }
 }

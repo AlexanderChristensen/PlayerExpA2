@@ -8,6 +8,7 @@ public class TerminalInputControl : MonoBehaviour
     public float onlinePowerDraw;
 
     [SerializeField] TerminalData hubTerminal;
+    [SerializeField] HubScreen hubScreen;
 
     [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Text textBoxCol1;
@@ -25,6 +26,8 @@ public class TerminalInputControl : MonoBehaviour
 
     float totalPowerDraw;
     float tempTotalPowerDraw;
+
+    bool cellAdded;
 
     private void Start()
     {
@@ -86,11 +89,11 @@ public class TerminalInputControl : MonoBehaviour
             {
                 if (inputIndcFunc[1] == "celldir")
                 {
-                    CellDirectory();
+                    terminalFunctions.CellDirectory(hubTerminal, terminalData, textBoxCol1, textBoxCol2);
                 }
                 else if (inputIndcFunc[1] == "powerdir")
                 {
-                    PowerDirectory();
+                    terminalFunctions.PowerDirectory(hubTerminal, textBoxCol1, textBoxCol2);
                 }
                 else
                 {
@@ -101,15 +104,18 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "clr")
         {
-            terminalFunctions.ClearFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "link")
         {
-            terminalFunctions.LinkSystemFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "adjst")
         {
-            terminalFunctions.AdjustFunction(inputIndcFunc, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            hubScreen.UpdateHubDisplay();
         }
         else
         {
@@ -121,66 +127,6 @@ public class TerminalInputControl : MonoBehaviour
         }
     }
 
-    public void CellDirectory()
-    {
-        if (terminalData.batteryCellsGiven.Count > 4)
-        {
-            int numPerCol = terminalData.batteryCellsGiven.Count / 2;
-
-            for (int i = 0; i < numPerCol; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
-                textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellSysConnection[i + numPerCol];
-            }
-        }
-        else
-        {
-            for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
-            }
-        }
-
-        MoveUpLine();
-        textBoxCol1.text += ".......................................\nunassigned systems:";
-        textBoxCol2.text += "\n";
-
-        for (int i = 0; i < terminalData.unconnectedSystems.Count; i++)
-        {
-            MoveUpLine();
-            textBoxCol1.text += terminalData.unconnectedSystems[i];
-        }
-    }
-
-    public void PowerDirectory()
-    {
-        if (terminalData.batteryCellsGiven.Count > 4)
-        {
-            int numPerCol = terminalData.batteryCellsGiven.Count / 2;
-
-            for (int i = 0; i < numPerCol; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
-                textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellPower[i + numPerCol] + " kW-c";
-            }
-        }
-        else
-        {
-            for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
-            {
-                MoveUpLine();
-                textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
-            }
-        }
-
-        MoveUpLine();
-        textBoxCol1.text += ".......................................\ntotal terminal power draw: " + totalPowerDraw + " kW-c";
-        textBoxCol2.text += "\n";
-    }
-
     void MoveUpLine()
     {
         textBoxCol1.text += "\n";
@@ -189,46 +135,176 @@ public class TerminalInputControl : MonoBehaviour
 
     void CheckIfOnline()
     {
-        tempTotalPowerDraw = 0;
+        totalPowerDraw = 0; 
 
-        for (int i = 0; i < terminalData.cellPower.Count; i++)
+        if (terminalData.systemsOnline == terminalData.numberOfSystems)
         {
-            tempTotalPowerDraw += terminalData.cellPower[i];
-        }
-
-        totalPowerDraw = tempTotalPowerDraw;
-
-        for (int i = 0; i < terminalData.cellPower.Count; i++)
-        {
-            if (terminalData.cellPower[i] == 0)
+            for (int i = 0; i < terminalData.numberOfSystems; i++)
             {
-                return;
+                for (int o = 0; o < hubTerminal.batteryCells.Count; o++)
+                {
+                    if (hubTerminal.batteryCells[o] != "unconnected")
+                    {
+                        if (int.Parse(terminalData.avaliableSystems[i].Substring(terminalData.avaliableSystems[i].Length - 1, 1)) == int.Parse(hubTerminal.batteryCells[o].Substring(hubTerminal.batteryCells[o].Length - 1, 1)))
+                        {
+                            if (hubTerminal.cellBatteryAmount[o] > 0)
+                            {
+
+                                totalPowerDraw += hubTerminal.cellPowerDraw[o];
+
+                                for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                                {
+                                    if (hubTerminal.activeCells[p] == o)
+                                    {
+                                        cellAdded = true;
+                                    }
+                                }
+
+                                if (!cellAdded)
+                                {
+                                    hubTerminal.activeCells.Add(o);
+                                }
+                            }
+                            else
+                            {
+                                hubTerminal.cellPowerDraw[o] = 0;
+                                hubTerminal.cellBatteryAmount[o] = 0;
+
+                                for (int p = 0; p < hubTerminal.activeCells.Count; p++)
+                                {
+                                    if (hubTerminal.activeCells[p] == o)
+                                    {
+                                        hubTerminal.activeCells.RemoveAt(p);
+
+                                    }
+                                }
+                                hubTerminal.batteryCells[o] = "unconnected";
+                                cellAdded = false;
+
+                                onlinePowerDraw = 0;
+
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
             onlinePowerDraw = totalPowerDraw;
         }
-
-        if (terminalData.cellPower.Count == 0) 
+        else
         {
             onlinePowerDraw = 0;
         }
+
+        //tempTotalPowerDraw = 0;
+
+        //for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //{
+        //    tempTotalPowerDraw += terminalData.cellPower[i];
+        //}
+
+        //totalPowerDraw = tempTotalPowerDraw;
+
+        //for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //{
+        //    if (terminalData.cellPower[i] == 0)
+        //    {
+        //        return;
+        //    }
+
+        //    onlinePowerDraw = totalPowerDraw;
+        //}
+
+        //if (terminalData.cellPower.Count == 0) 
+        //{
+        //    onlinePowerDraw = 0;
+        //}
+    }
+
+    void CheckBatteryNotDrained()
+    { 
     }
 
     void UpdateHubCellDraw()
     {
-        if (terminalData.cellSysConnection.Count > 0 && terminalData.batteryCellsGiven.Count > 0) 
-        {
-            for (int i = 0; i < terminalData.cellPower.Count; i++)
-            {
-                int index = int.Parse(terminalData.batteryCellsGiven[i].Substring(5, 1));
+        //if (terminalData.cellSysConnection.Count > 0 && terminalData.batteryCellsGiven.Count > 0) 
+        //{
+        //    for (int i = 0; i < terminalData.cellPower.Count; i++)
+        //    {
+        //        int index = int.Parse(terminalData.batteryCellsGiven[i].Substring(5, 1));
 
-                Debug.Log(index);
+        //        Debug.Log(index);
 
-                if (index <= hubTerminal.cellPowerDraw.Count && index > -1)
-                {
-                    hubTerminal.cellPowerDraw[index] = terminalData.cellPower[i];
-                }
-            }
-        }
+        //        if (index <= hubTerminal.cellPowerDraw.Count && index > -1)
+        //        {
+        //            hubTerminal.cellPowerDraw[index] = terminalData.cellPower[i];
+        //        }
+        //    }
+        //}
     }
+
+
+
+
+
+    //public void CellDirectory()
+    //{
+    //    if (terminalData.batteryCellsGiven.Count > 4)
+    //    {
+    //        int numPerCol = terminalData.batteryCellsGiven.Count / 2;
+
+    //        for (int i = 0; i < numPerCol; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
+    //            textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellSysConnection[i + numPerCol];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellSysConnection[i];
+    //        }
+    //    }
+
+    //    MoveUpLine();
+    //    textBoxCol1.text += ".......................................\nunassigned systems:";
+    //    textBoxCol2.text += "\n";
+
+    //    for (int i = 0; i < terminalData.unconnectedSystems.Count; i++)
+    //    {
+    //        MoveUpLine();
+    //        textBoxCol1.text += terminalData.unconnectedSystems[i];
+    //    }
+    //}
+
+    //public void PowerDirectory()
+    //{
+    //    if (terminalData.batteryCellsGiven.Count > 4)
+    //    {
+    //        int numPerCol = terminalData.batteryCellsGiven.Count / 2;
+
+    //        for (int i = 0; i < numPerCol; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
+    //            textBoxCol2.text += terminalData.batteryCellsGiven[i + numPerCol] + "   --   " + terminalData.cellPower[i + numPerCol] + " kW-c";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < terminalData.batteryCellsGiven.Count; i++)
+    //        {
+    //            MoveUpLine();
+    //            textBoxCol1.text += terminalData.batteryCellsGiven[i] + "   --   " + terminalData.cellPower[i] + " kW-c";
+    //        }
+    //    }
+
+    //    MoveUpLine();
+    //    textBoxCol1.text += ".......................................\ntotal terminal power draw: " + totalPowerDraw + " kW-c";
+    //    textBoxCol2.text += "\n";
+    //}
 }

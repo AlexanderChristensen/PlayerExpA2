@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GrappleMovement : MonoBehaviour
 {
@@ -13,40 +14,39 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float springStrength;
     [SerializeField] float damperStrength;
 
+    [SerializeField] TMP_Text velocityText;
+    [SerializeField] TMP_Text accelerationText;
+
     [SerializeField] GameObject grapplePointModel;
 
+    [SerializeField] float velocitySampleFrequency;
+
     LineRenderer grappleLine;
-    ConfigurableJoint joint;
 
     Rigidbody rb;
 
     bool grappling;
     bool zipping;
-    bool jointSet;
 
     Vector3 grapplePointDirection;
-    float grapplePointDistance;
 
     GameObject grappleInstance;
 
     public bool canMove;
 
-    SoftJointLimitSpring springLimit;
-    SoftJointLimit distLimit;
+    float lastTickVelocity;
+    [HideInInspector] public float acceleration;
+    [HideInInspector] public float velocity;
+
+    float velocitySampleTimer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         grappleLine = GetComponent<LineRenderer>();
-        joint = GetComponent<ConfigurableJoint>();
 
-        SoftJointLimit distLimit = new SoftJointLimit();
 
         canMove = true;
-
-        springLimit = joint.linearLimitSpring;
-
-        distLimit = joint.linearLimit;
     }
 
 
@@ -81,32 +81,14 @@ public class GrappleMovement : MonoBehaviour
             if (grappling)
             {
                 DrawLine();
-
-                if (!zipping)
-                { 
-                    if (!jointSet)
-                    {
-                        ActivateJoint();
-                    }
-                }
-                else
-                {
-                    if (jointSet)
-                    {
-                        DisconnectJoint();
-                    }
-                }  
             }
             else
             {
                 grappleLine.enabled = false;
-
-                if (jointSet)
-                {
-                    DisconnectJoint();
-                }
             }
         }
+
+        SampleVelocity();
     }
 
     void FixedUpdate()
@@ -118,6 +100,8 @@ public class GrappleMovement : MonoBehaviour
             rb.AddForce((grapplePointDirection - transform.position).normalized * appliedPullForce);
         }
 
+        acceleration = Mathf.Abs((rb.velocity.magnitude - lastTickVelocity) / Time.fixedDeltaTime);
+        lastTickVelocity = rb.velocity.magnitude;
     }
 
 
@@ -145,40 +129,6 @@ public class GrappleMovement : MonoBehaviour
         grappleLine.SetPosition(1, grapplePointDirection);
     }
 
-    void ActivateJoint()
-    {
-        grapplePointDistance = Vector3.Distance(transform.position, grappleInstance.transform.position);
-
-        joint.connectedBody = grappleInstance.GetComponent<Rigidbody>();
-        joint.anchor = grapplePointDirection;
-
-        springLimit.spring = 0.1f;
-
-        distLimit.limit = 100000;
-        joint.linearLimit = distLimit;
-
-        joint.xMotion = ConfigurableJointMotion.Limited;
-        joint.yMotion = ConfigurableJointMotion.Limited;
-        joint.zMotion = ConfigurableJointMotion.Limited;
-
-
-        Debug.Log(distLimit.limit);
-        jointSet = true;
-    }
-
-    void DisconnectJoint()
-    {
-        joint.xMotion = ConfigurableJointMotion.Free;
-        joint.yMotion = ConfigurableJointMotion.Free;
-        joint.zMotion = ConfigurableJointMotion.Free;
-
-        springLimit.spring = 0;
-
-        distLimit.limit = 0;
-
-        jointSet = false;
-    }
-
     public void Freeze()
     {
         rb.velocity = Vector3.zero;
@@ -195,8 +145,20 @@ public class GrappleMovement : MonoBehaviour
         canMove = true;
     }
 
-    private void OnJointBreak(float breakForce)
+    void SampleVelocity()
     {
-        Debug.Log("joint broke");
+        if (velocitySampleTimer <= 0)
+        {
+            velocity = rb.velocity.magnitude;
+
+            velocityText.text = velocity.ToString("F2") + "m/s";
+            accelerationText.text = acceleration.ToString("F2") + "m/s/s";
+
+            velocitySampleTimer = velocitySampleFrequency;
+        }
+        else
+        {
+            velocitySampleTimer -= Time.deltaTime;
+        }
     }
 }
