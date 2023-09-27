@@ -45,7 +45,7 @@ public class TerminalFunctions
         textBoxCol2.text += "\n";
     }
 
-    public void PowerDirectory(TerminalData hubData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
+    public void Directory(TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
     {
         int numPerCol = hubData.batteryCells.Count / 2;
 
@@ -55,20 +55,20 @@ public class TerminalFunctions
 
             if (hubData.cellBatteryAmount[i] > 0)
             {
-                textBoxCol1.text += "cell " + i + "   --   " + hubData.cellBatteryAmount[i] + " kW " + "   --   " + hubData.cellPowerDraw[i] + "kW-c";
+                textBoxCol1.text += "cell" + i + "  --  " + hubData.cellBatteryAmount[i] + " kW " + "  --  " + hubData.cellPowerDraw[i] + "kW-c" + "  --  " + hubData.batteryCells[i];
             }
             else
             {
-                textBoxCol1.text += "cell " + i + "   --   " + "drained";
+                textBoxCol1.text += "cell" + i + "  --  " + "drained";
             }
 
             if (hubData.cellBatteryAmount[i + numPerCol] > 0)
             {
-                textBoxCol2.text += "cell " + (i + numPerCol) + "   --   " + hubData.cellBatteryAmount[i + numPerCol] + " kW " + "   --   " + hubData.cellPowerDraw[i + numPerCol] + "kW-c";
+                textBoxCol2.text += "cell" + (i + numPerCol) + "  --  " + hubData.cellBatteryAmount[i + numPerCol] + " kW " + "  --  " + hubData.cellPowerDraw[i + numPerCol] + "kW-c" + "  --  " + hubData.batteryCells[i + numPerCol];
             }
             else
             {
-                textBoxCol2.text += "cell " + (i + numPerCol) + "   --   " + "drained";
+                textBoxCol2.text += "cell" + (i + numPerCol) + "  --  " + "drained";
             }
         }
 
@@ -76,10 +76,10 @@ public class TerminalFunctions
         textBoxCol1.text += ".......................................\nsystems avaliable:";
         textBoxCol2.text += "\n";
 
-        for (int i = 0; i < hubData.terminals.Count; i++)
+        for (int i = 0; i < terminalData.avaliableSystems.Count; i++)
         {
             MoveUpLine(textBoxCol1, textBoxCol2);
-            textBoxCol1.text += hubData.terminals[i].name + "   --   " + hubData.terminals[i].gameObject.GetComponent<TerminalInputControl>().onlinePowerDraw + " kW-c";
+            textBoxCol1.text += terminalData.avaliableSystems[i];
         }
 
         textBoxCol2.text += "\n";

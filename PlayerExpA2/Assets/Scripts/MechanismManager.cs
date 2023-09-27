@@ -74,6 +74,8 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] Image cycleImage;
 
+    [SerializeField] TMP_Text warningText;
+
     float shipTimer;
 
     float powerDrawTimer;
@@ -148,6 +150,8 @@ public class MechanismManager : MonoBehaviour
         AsteroidHit();
 
         SampleVelocity();
+
+        CheckForWarnings();
     }
 
     void ShipTimer()
@@ -159,8 +163,6 @@ public class MechanismManager : MonoBehaviour
             OxygenDecrease();
             OxygenFiltering();
             Experiment();
-
-            hubScreen.UpdateHubDisplay();
 
             shipTimer = 0;
         }
@@ -208,13 +210,13 @@ public class MechanismManager : MonoBehaviour
 
     void AsteroidHit()
     {
-        frequencyCurrent = ((minFrequency / maxFrequency) * experiment) + minFrequency;
+        frequencyCurrent = (((maxFrequency - minFrequency) /experimentTotal) * experiment) + minFrequency;
 
         if (asteroidHitTimer <= 0)
         {
             if (sheilds > 0)
             {
-                damageCurrent = ((minDamage / maxDamage) * experiment) + minDamage;
+                damageCurrent = (((maxDamage - minDamage)/ experimentTotal) * experiment) + minDamage;
 
                 damageTakenThisCycle = Mathf.Round(damageCurrent + Random.Range(-damageDeviation, damageDeviation));
 
@@ -301,30 +303,32 @@ public class MechanismManager : MonoBehaviour
 
         if (experiment < experimentTotal)
         {
-            if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
+            if (experiment < experimentTotal)
             {
-
-                if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
+                if (experimentDraw > 0)
                 {
-                    if (experimentDraw == experimentOptimalRange)
+                    if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
                     {
-                        experimentIncrease = experimentOptimalMulti;
+                        if (experimentDraw == experimentOptimalRange)
+                        {
+                            experimentIncrease = experimentOptimalMulti;
+                            experiment += experimentIncrease;
+                        }
+                        else
+                        {
+                            experimentIncrease = experimentSuboptimalMulti;
+                            experiment += experimentIncrease;
+                        }
+                    }
+                    else if (experimentDraw > 0)
+                    {
+                        experimentIncrease = experimentLowMulti;
                         experiment += experimentIncrease;
                     }
                     else
                     {
-                        experimentIncrease = experimentSuboptimalMulti;
-                        experiment += experimentIncrease;
+                        experimentIncrease = 0;
                     }
-                }
-                else if (experimentDraw > 0)
-                {
-                    experimentIncrease = experimentLowMulti;
-                    experiment += experimentIncrease;
-                }
-                else
-                {
-                    experimentIncrease = 0;
                 }
                 
             }
@@ -366,7 +370,7 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                oxygenFilteringDrain += oxygenLossPerCycle;
+                oxygenFilteringDrain = oxygenLossPerCycle;
                 oxygenQuality -= oxygenFilteringDrain;
             }
 
@@ -377,6 +381,40 @@ public class MechanismManager : MonoBehaviour
         else
         {
             velocitySampleTimer -= Time.deltaTime;
+        }
+    }
+
+    void CheckForWarnings()
+    {
+        if (sheilds < sheildsTotal/4)
+        {
+            if (oxygenQuality < oxygenQualityTotal / 4)
+            {
+                if (oxygenQuality/oxygenQualityTotal < sheilds/sheildsTotal)
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! oxygen quality is low";
+                    return;
+                }
+                else
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! sheilds are low";
+                    return;
+                }
+            }
+
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! sheilds are low";
+        }
+        else if (oxygenQuality <  oxygenQualityTotal/4)
+        {
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! oxygen quality is low";
+        }
+        else
+        {
+            warningText.gameObject.SetActive(false);
         }
     }
 }
