@@ -5,11 +5,6 @@ using TMPro;
 
 public class HubScreen : MonoBehaviour
 {
-    TerminalFunctions terminalFunctions = new TerminalFunctions();
-
-    [SerializeField] TMP_Text textBoxCol1;
-    [SerializeField] TMP_Text textBoxCol2;
-
     TerminalData terminalData;
 
     void Start()
@@ -21,9 +16,6 @@ public class HubScreen : MonoBehaviour
 
     public void UpdateHubDisplay()
     {
-        textBoxCol1.text = "";
-        textBoxCol2.text = "";
 
-        //terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
     }
 }

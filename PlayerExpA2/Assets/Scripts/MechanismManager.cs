@@ -74,6 +74,8 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] Image cycleImage;
 
+    [SerializeField] TMP_Text warningText;
+
     float shipTimer;
 
     float powerDrawTimer;
@@ -148,6 +150,8 @@ public class MechanismManager : MonoBehaviour
         AsteroidHit();
 
         SampleVelocity();
+
+        CheckForWarnings();
     }
 
     void ShipTimer()
@@ -377,6 +381,40 @@ public class MechanismManager : MonoBehaviour
         else
         {
             velocitySampleTimer -= Time.deltaTime;
+        }
+    }
+
+    void CheckForWarnings()
+    {
+        if (sheilds < sheildsTotal/4)
+        {
+            if (oxygenQuality < oxygenQualityTotal / 4)
+            {
+                if (oxygenQuality/oxygenQualityTotal < sheilds/sheildsTotal)
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! oxygen quality is low";
+                    return;
+                }
+                else
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! sheilds are low";
+                    return;
+                }
+            }
+
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! sheilds are low";
+        }
+        else if (oxygenQuality <  oxygenQualityTotal/4)
+        {
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! oxygen quality is low";
+        }
+        else
+        {
+            warningText.gameObject.SetActive(false);
         }
     }
 }
