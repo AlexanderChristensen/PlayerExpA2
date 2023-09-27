@@ -366,7 +366,7 @@ public class MechanismManager : MonoBehaviour
             }
             else
             {
-                oxygenFilteringDrain += oxygenLossPerCycle;
+                oxygenFilteringDrain = oxygenLossPerCycle;
                 oxygenQuality -= oxygenFilteringDrain;
             }
 
