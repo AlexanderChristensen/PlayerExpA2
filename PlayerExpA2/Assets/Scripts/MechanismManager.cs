@@ -164,8 +164,6 @@ public class MechanismManager : MonoBehaviour
             OxygenFiltering();
             Experiment();
 
-            hubScreen.UpdateHubDisplay();
-
             shipTimer = 0;
         }
         else
