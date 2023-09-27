@@ -72,7 +72,7 @@ public class TerminalInputControl : MonoBehaviour
         if (inputIndcFunc[0] == "help")
         {
             textBoxCol1.text += "\nls\ncelldir\npowerdir\n";
-            textBoxCol2.text += "\nadjst\nclr\nlink\nexit\n";
+            textBoxCol2.text += "\nadjst\nlink\nexit\n";
         }
         else if (inputIndcFunc[0] == "exit")
         {
@@ -102,11 +102,11 @@ public class TerminalInputControl : MonoBehaviour
                 }
             }
         }
-        else if (inputIndcFunc[0] == "clr")
-        {
-            terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
-            hubScreen.UpdateHubDisplay();
-        }
+        //else if (inputIndcFunc[0] == "clr")
+        //{
+        //    terminalFunctions.ClearFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+        //    hubScreen.UpdateHubDisplay();
+        //}
         else if (inputIndcFunc[0] == "link")
         {
             terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
@@ -149,7 +149,7 @@ public class TerminalInputControl : MonoBehaviour
                         {
                             if (hubTerminal.cellBatteryAmount[o] > 0)
                             {
-
+                                Debug.Log("shoudl update powerdraw");
                                 totalPowerDraw += hubTerminal.cellPowerDraw[o];
 
                                 for (int p = 0; p < hubTerminal.activeCells.Count; p++)
@@ -163,6 +163,7 @@ public class TerminalInputControl : MonoBehaviour
                                 if (!cellAdded)
                                 {
                                     hubTerminal.activeCells.Add(o);
+                                    terminalData.activeCells.Add(o);
                                 }
                             }
                             else
@@ -175,6 +176,7 @@ public class TerminalInputControl : MonoBehaviour
                                     if (hubTerminal.activeCells[p] == o)
                                     {
                                         hubTerminal.activeCells.RemoveAt(p);
+                                        terminalData.activeCells.RemoveAt(0);
 
                                     }
                                 }
@@ -182,6 +184,8 @@ public class TerminalInputControl : MonoBehaviour
                                 cellAdded = false;
 
                                 onlinePowerDraw = 0;
+
+                                terminalData.systemsOnline--;
 
                                 return;
                             }
