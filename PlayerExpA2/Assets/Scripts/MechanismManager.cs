@@ -216,7 +216,7 @@ public class MechanismManager : MonoBehaviour
         {
             if (sheilds > 0)
             {
-                damageCurrent = ((maxDamage - minDamage/ experimentTotal) * experiment) + minDamage;
+                damageCurrent = (((maxDamage - minDamage)/ experimentTotal) * experiment) + minDamage;
 
                 damageTakenThisCycle = Mathf.Round(damageCurrent + Random.Range(-damageDeviation, damageDeviation));
 
