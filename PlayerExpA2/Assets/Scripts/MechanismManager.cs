@@ -308,18 +308,18 @@ public class MechanismManager : MonoBehaviour
                 {
                     if (experimentDraw == experimentOptimalRange)
                     {
-                        experimentIncrease = experimentOptimalMulti * experimentDraw;
+                        experimentIncrease = experimentOptimalMulti;
                         experiment += experimentIncrease;
                     }
                     else
                     {
-                        experimentIncrease = experimentSuboptimalMulti * experimentDraw;
+                        experimentIncrease = experimentSuboptimalMulti;
                         experiment += experimentIncrease;
                     }
                 }
                 else if (experimentDraw > 0)
                 {
-                    experimentIncrease = experimentLowMulti * experimentDraw;
+                    experimentIncrease = experimentLowMulti;
                     experiment += experimentIncrease;
                 }
                 else
