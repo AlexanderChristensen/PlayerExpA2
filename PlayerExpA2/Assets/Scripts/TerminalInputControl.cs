@@ -121,12 +121,10 @@ public class TerminalInputControl : MonoBehaviour
         else if (inputIndcFunc[0] == "link")
         {
             terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
-            hubScreen.UpdateHubDisplay();
         }
         else if (inputIndcFunc[0] == "adjst")
         {
             terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
-            hubScreen.UpdateHubDisplay();
         }
         else
         {

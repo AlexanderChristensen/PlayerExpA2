@@ -24380,10 +24380,10 @@ MonoBehaviour:
   sheildRegenMultiplier: 3
   shipCycleTime: 2
   minDamage: 10
-  maxDamage: 50
+  maxDamage: 25
   damageDeviation: 2
   minFrequency: 8
-  maxFrequency: 2
+  maxFrequency: 4
   frequencyDeviation: 1
   oxygenFilteringMultiplier: 1
   oxygenLossPerCycle: 2

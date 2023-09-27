@@ -14,8 +14,5 @@ public class HubScreen : MonoBehaviour
         //terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
     }
 
-    public void UpdateHubDisplay()
-    {
 
-    }
 }
