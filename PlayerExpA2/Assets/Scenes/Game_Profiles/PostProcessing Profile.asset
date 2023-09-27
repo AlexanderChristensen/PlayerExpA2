@@ -30,7 +30,7 @@ MonoBehaviour:
     value: 65472
   diffusion:
     overrideState: 1
-    value: 7
+    value: 4.79
   anamorphicRatio:
     overrideState: 1
     value: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.47
+    value: 0.031
   smoothness:
     overrideState: 1
     value: 0.2

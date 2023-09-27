@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUDTerminalDots : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class HUDTerminalDots : MonoBehaviour
     [SerializeField] Image dot2Image;
     [SerializeField] Image dot3Image;
 
+    [SerializeField] TMP_Text dot1Text;
+    [SerializeField] TMP_Text dot2Text;
+    [SerializeField] TMP_Text dot3Text;
+
+    [SerializeField] bool isSign;
+
     void Update()
     {
         if (mechanismManager.oxygenFilteringDraw > 0 && terminal[0].activeCells.Count > 0)
@@ -25,15 +32,30 @@ public class HUDTerminalDots : MonoBehaviour
             if (hubTerminal.cellBatteryAmount[terminal[0].activeCells[0]] < (mechanismManager.shipPowerTotal / hubTerminal.batteryCellCount) / 2)
             {
                 dot1Image.sprite = dot1Sprites[2];
+
+                if (isSign)
+                {
+                    dot1Text.text = "half empty";
+                }
             }
             else
             {
                 dot1Image.sprite = dot1Sprites[1];
+
+                if (isSign)
+                {
+                    dot1Text.text = "Connected";
+                }
             }
         }
         else
         {
             dot1Image.sprite = dot1Sprites[0];
+
+            if (isSign)
+            {
+                dot1Text.text = "Unconnected";
+            }
         }
 
         if (mechanismManager.sheildDraw > 0 && terminal[1].activeCells.Count > 0)

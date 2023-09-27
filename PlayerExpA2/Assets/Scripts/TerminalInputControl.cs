@@ -80,27 +80,38 @@ public class TerminalInputControl : MonoBehaviour
         }
         else if (inputIndcFunc[0] == "ls")
         {
-            if (!(inputIndcFunc.Length > 1))
+            if (inputIndcFunc.Length > 1)
             {
                 MoveUpLine();
-                textBoxCol1.text += "type in a directory name to list";
+                textBoxCol1.text += "ls is all required to list directory";
             }
             else
             {
-                if (inputIndcFunc[1] == "celldir")
-                {
-                    terminalFunctions.CellDirectory(hubTerminal, terminalData, textBoxCol1, textBoxCol2);
-                }
-                else if (inputIndcFunc[1] == "powerdir")
-                {
-                    terminalFunctions.PowerDirectory(hubTerminal, textBoxCol1, textBoxCol2);
-                }
-                else
-                {
-                    MoveUpLine();
-                    textBoxCol1.text += "this directory does not exist";
-                }
+                terminalFunctions.Directory(hubTerminal, terminalData, textBoxCol1, textBoxCol2);
             }
+
+
+            //if (!(inputIndcFunc.Length > 1))
+            //{
+            //    MoveUpLine();
+            //    textBoxCol1.text += "type in a directory name to list";
+            //}
+            //else
+            //{
+            //    if (inputIndcFunc[1] == "celldir")
+            //    {
+            //        terminalFunctions.CellDirectory(hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            //    }
+            //    else if (inputIndcFunc[1] == "powerdir")
+            //    {
+            //        terminalFunctions.Directory(hubTerminal,terminalData, textBoxCol1, textBoxCol2);
+            //    }
+            //    else
+            //    {
+            //        MoveUpLine();
+            //        textBoxCol1.text += "this directory does not exist";
+            //    }
+            //}
         }
         //else if (inputIndcFunc[0] == "clr")
         //{

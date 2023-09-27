@@ -16,7 +16,7 @@ public class HubScreen : MonoBehaviour
     {
         terminalData = GetComponent<TerminalData>();
 
-        terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
+        //terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
     }
 
     public void UpdateHubDisplay()
@@ -24,6 +24,6 @@ public class HubScreen : MonoBehaviour
         textBoxCol1.text = "";
         textBoxCol2.text = "";
 
-        terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
+        //terminalFunctions.PowerDirectory(terminalData, textBoxCol1, textBoxCol2);
     }
 }
