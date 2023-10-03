@@ -27,7 +27,7 @@ public class TerminalData : MonoBehaviour
     public List<string> avaliableSystems = new List<string>();
 
     [Header("only needed for hub")]
-    [SerializeField] int batteryCellCount;
+    public int batteryCellCount;
     public List<GameObject> terminals = new List<GameObject>();
     [Header("only needed for terminal")]
     public int numberOfSystems;

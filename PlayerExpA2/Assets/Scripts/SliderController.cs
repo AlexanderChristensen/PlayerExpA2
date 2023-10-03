@@ -13,6 +13,12 @@ public class SliderController : MonoBehaviour
         slider.value = currentValue;
     }
 
+    public void SetMinValue(float minimumValue, float currentValue)
+    {
+        slider.minValue = minimumValue;
+        slider.value = currentValue;
+    }
+
     public void UpdateSlider(float currentValue)
     {
         slider.value = currentValue;

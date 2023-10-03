@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MechanismManager : MonoBehaviour
 {
@@ -26,26 +27,38 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] float shipCycleTime;
 
+    [Header("Damage Variables")]
+    [SerializeField] float minDamage;
+    [SerializeField] float maxDamage;
+    [SerializeField] float damageDeviation;
+    float damageCurrent;
+
+    [SerializeField] float minFrequency;
+    [SerializeField] float maxFrequency;
+    [SerializeField] float frequencyDeviation;
+    float frequencyCurrent;
 
     [Header ("Oxyge Filtering Variuables")]
     [SerializeField] float oxygenFilteringMultiplier;
     [SerializeField] float oxygenLossPerCycle;
+    [SerializeField] float oxygenLossPassive;
     [SerializeField] float velocitySampleRate;
-    [SerializeField] float velocityAllowance;
+    public float velocityAllowance;
 
     [Header ("Experiment Variables")]
     [SerializeField] float experimentOptimalMulti;
     [SerializeField] float experimentSuboptimalMulti;
+    [SerializeField] float experimentLowMulti;
+
     public float subOptimalDeviation;
     [SerializeField] float cycleToChangeOptimal;
 
     [Header("References")]
-    [SerializeField] TMP_Text shipHealthText;
-
     [SerializeField] UIMechanismManager powerUI;
     [SerializeField] UIMechanismManager oxyFltrUI;
     [SerializeField] UIMechanismManager sheildsUI;
     [SerializeField] UIMechanismManager experimentUI;
+    [SerializeField] UIMechanismManager shipHealthUI;
 
     [SerializeField] string oxygenFilterTerminalName;
     [SerializeField] string sheildsTerminalName;
@@ -57,13 +70,19 @@ public class MechanismManager : MonoBehaviour
 
     [SerializeField] GrappleMovement playerMovement;
 
+    [SerializeField] CameraShakeController camShake;
+
+    [SerializeField] Image cycleImage;
+
+    [SerializeField] TMP_Text warningText;
+
     float shipTimer;
 
     float powerDrawTimer;
     float asteroidHitTimer;
 
-    float oxygenFilteringDraw;
-    float sheildDraw;
+    [HideInInspector] public float oxygenFilteringDraw;
+    [HideInInspector] public float sheildDraw;
     [HideInInspector] public float experimentDraw;
 
     float damageTakenThisCycle;
@@ -72,10 +91,12 @@ public class MechanismManager : MonoBehaviour
     [HideInInspector] public float experimentOptimalRange;
 
     float velocitySampleTimer;
-    float lastSampleVelocity;
+    [HideInInspector] public float lastSampleVelocity;
 
     float oxygenFilteringRegen;
     float oxygenFilteringDrain;
+
+    float experimentIncrease;
 
     bool oxygenDegrading;
 
@@ -89,7 +110,11 @@ public class MechanismManager : MonoBehaviour
         powerUI.SetStartValues(shipPowerTotal, shipPowerTotal, 0f, 0f);
         oxyFltrUI.SetStartValues(oxygenQualityTotal, oxygenQualityTotal, 0f, 0f);
         sheildsUI.SetStartValues(sheildsTotal, sheildsTotal, 0f, 0);
+        shipHealthUI.SetStartValues(shipHealthTotal, shipHealthTotal, 0f, 0);
         experimentUI.SetStartValues(experimentTotal, 0, 0f, 0);
+
+        frequencyCurrent = ((minFrequency / maxFrequency) * experiment) + minFrequency;
+        asteroidHitTimer = Mathf.Round(frequencyCurrent + Random.Range(-frequencyDeviation, frequencyDeviation));
     }
 
     void Update()
@@ -112,17 +137,21 @@ public class MechanismManager : MonoBehaviour
 
         }
 
-        shipHealthText.text = "Health: " + shipHealth + " out of " + shipHealthTotal;
+        powerUI.UpdateValues(shipPower, -1 * totalPowerDraw, 0);
 
-        powerUI.UpdateValues(shipPower, totalPowerDraw, 0);
-        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain, oxygenFilteringRegen);
-        sheildsUI.UpdateValues(sheilds, 0,sheildDraw * sheildRegenMultiplier);
-        experimentUI.UpdateValues(experiment, 0,experimentDraw * experimentOptimalMulti);
+        oxygenQuality = Mathf.Round(oxygenQuality * 100)/100;
+
+        oxyFltrUI.UpdateValues(oxygenQuality, oxygenFilteringDrain + oxygenLossPassive, oxygenFilteringRegen);
+        sheildsUI.UpdateValues(sheilds, damageTakenThisCycle, sheildDraw * sheildRegenMultiplier);
+        shipHealthUI.UpdateValues(shipHealth, 0, 0);
+        experimentUI.UpdateValues(experiment, 0, experimentIncrease);
 
         ShipTimer();
         AsteroidHit();
 
         SampleVelocity();
+
+        CheckForWarnings();
     }
 
     void ShipTimer()
@@ -131,17 +160,17 @@ public class MechanismManager : MonoBehaviour
         {
             PowerDraw();
             SheildRegen();
-            //OxygenDecrease();
+            OxygenDecrease();
             OxygenFiltering();
             Experiment();
-
-            hubScreen.UpdateHubDisplay();
 
             shipTimer = 0;
         }
         else
         {
             shipTimer += Time.deltaTime;
+
+            cycleImage.color = new Color(1, 1, 1, shipTimer / shipCycleTime);
         }
     }
 
@@ -181,13 +210,19 @@ public class MechanismManager : MonoBehaviour
 
     void AsteroidHit()
     {
-        if (asteroidHitTimer >= Random.Range(3,5))
+        frequencyCurrent = (((maxFrequency - minFrequency) /experimentTotal) * experiment) + minFrequency;
+
+        if (asteroidHitTimer <= 0)
         {
             if (sheilds > 0)
             {
-                damageTakenThisCycle = Random.Range(3, 8);
+                damageCurrent = (((maxDamage - minDamage)/ experimentTotal) * experiment) + minDamage;
+
+                damageTakenThisCycle = Mathf.Round(damageCurrent + Random.Range(-damageDeviation, damageDeviation));
 
                 sheilds -= damageTakenThisCycle;
+
+                camShake.ShakeCamera(5f, 0.2f);
                  
                 if (sheilds < 0)
                 {
@@ -205,11 +240,11 @@ public class MechanismManager : MonoBehaviour
                 }
             }
 
-            asteroidHitTimer = 0;
+            asteroidHitTimer = Mathf.Round(frequencyCurrent + Random.Range(-frequencyDeviation, frequencyDeviation));
         }
         else
         {
-            asteroidHitTimer += Time.deltaTime;
+            asteroidHitTimer -= Time.deltaTime;
         }
     }
 
@@ -228,27 +263,23 @@ public class MechanismManager : MonoBehaviour
         }
     }
 
-    //void OxygenDecrease()
-    //{
+    void OxygenDecrease()
+    {
+        if (oxygenQuality > 0)
+        {
+            oxygenQuality -= oxygenLossPassive;
 
-    //    if (oxygenDegrading)
-    //    {
-    //        if (oxygenQuality > 0)
-    //        {
-    //            oxygenQuality -= oxygenLossPerCycle;
-
-    //            if (oxygenQuality < 0)
-    //            {
-    //                oxygenQuality = 0;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            oxygenQuality = 0;
-    //            SceneManager.LoadScene("LoseScreen");
-    //        }
-    //    }
-    //}
+            if (oxygenQuality < 0)
+            {
+                oxygenQuality = 0;
+            }
+        }
+        else
+        {
+            oxygenQuality = 0;
+            SceneManager.LoadScene("LoseScreen");
+        }
+    }
 
     void OxygenFiltering()
     {
@@ -272,18 +303,31 @@ public class MechanismManager : MonoBehaviour
 
         if (experiment < experimentTotal)
         {
-            if ((experiment + experimentDraw * experimentOptimalMulti) < experimentTotal)
+            if (experiment < experimentTotal)
             {
-
-                if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
+                if (experimentDraw > 0)
                 {
-                    if (experimentDraw == experimentOptimalRange)
+                    if (experimentDraw <= experimentOptimalRange + subOptimalDeviation && experimentDraw >= experimentOptimalRange - subOptimalDeviation)
                     {
-                        experiment += experimentOptimalMulti;
+                        if (experimentDraw == experimentOptimalRange)
+                        {
+                            experimentIncrease = experimentOptimalMulti;
+                            experiment += experimentIncrease;
+                        }
+                        else
+                        {
+                            experimentIncrease = experimentSuboptimalMulti;
+                            experiment += experimentIncrease;
+                        }
+                    }
+                    else if (experimentDraw > 0)
+                    {
+                        experimentIncrease = experimentLowMulti;
+                        experiment += experimentIncrease;
                     }
                     else
                     {
-                        experiment += experimentSuboptimalMulti;
+                        experimentIncrease = 0;
                     }
                 }
                 
@@ -304,7 +348,7 @@ public class MechanismManager : MonoBehaviour
     {
         if (experimentCycleChange <= 0)
         {
-            experimentOptimalRange = Random.Range(2, 8);
+            experimentOptimalRange = Random.Range(1, 5);
 
             experimentCycleChange = cycleToChangeOptimal;
         }
@@ -322,7 +366,6 @@ public class MechanismManager : MonoBehaviour
 
             if (velocityDifference < velocityAllowance)
             {
-                Debug.Log("maiantiang velocity");
                 oxygenFilteringDrain = 0;
             }
             else
@@ -338,6 +381,40 @@ public class MechanismManager : MonoBehaviour
         else
         {
             velocitySampleTimer -= Time.deltaTime;
+        }
+    }
+
+    void CheckForWarnings()
+    {
+        if (sheilds < sheildsTotal/4)
+        {
+            if (oxygenQuality < oxygenQualityTotal / 4)
+            {
+                if (oxygenQuality/oxygenQualityTotal < sheilds/sheildsTotal)
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! oxygen quality is low";
+                    return;
+                }
+                else
+                {
+                    warningText.gameObject.SetActive(true);
+                    warningText.text = "WARNING! sheilds are low";
+                    return;
+                }
+            }
+
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! sheilds are low";
+        }
+        else if (oxygenQuality <  oxygenQualityTotal/4)
+        {
+            warningText.gameObject.SetActive(true);
+            warningText.text = "WARNING! oxygen quality is low";
+        }
+        else
+        {
+            warningText.gameObject.SetActive(false);
         }
     }
 }
