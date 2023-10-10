@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ~ type ls to list avaliable programs
+  m_text: '!type     ls     to list avaliable programs'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cea4b1a58b819a8469aa5e1270241452, type: 2}
   m_sharedMaterial: {fileID: -6015484042508210827, guid: cea4b1a58b819a8469aa5e1270241452, type: 2}
@@ -2007,6 +2007,7 @@ GameObject:
   - component: {fileID: 1791826239}
   - component: {fileID: 1791826238}
   - component: {fileID: 1791826242}
+  - component: {fileID: 1791826243}
   m_Layer: 5
   m_Name: MenuTerminal
   m_TagString: Untagged
@@ -2118,6 +2119,20 @@ MonoBehaviour:
   inputField: {fileID: 1075120975}
   textBoxCol1: {fileID: 1107911738}
   textBoxCol2: {fileID: 669469195}
+--- !u!114 &1791826243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791826237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94557bc7775f22048a7180c298a21737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMenu: 1
+  menuOverlay: {fileID: 0}
 --- !u!1 &1830145864
 GameObject:
   m_ObjectHideFlags: 0
