@@ -85,7 +85,7 @@ public class TerminalFunctions
         textBoxCol2.text += "\n";
     }
 
-    public void LinkFunction(string[] inputIndcFunc, TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
+    public void LinkFunction(string[] inputIndcFunc, TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2, TMP_Text warningPrompt)
     {
         if (inputIndcFunc[1].Substring(0, 3) == "sys")
         {
@@ -107,6 +107,8 @@ public class TerminalFunctions
                                     if (hubData.cellBatteryAmount[cellNumber] > 0)
                                     {
                                         hubData.batteryCells[cellNumber] = "system " + systemNumber;
+                                        warningPrompt.gameObject.SetActive(true);
+                                        warningPrompt.text = "sys" + systemNumber + " connected to cell " + cellNumber;
                                         return;
                                     }
                                     else
@@ -197,7 +199,7 @@ public class TerminalFunctions
 
 
 
-    public void AdjustFunction(string[] inputIndcFunc, TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2)
+    public void AdjustFunction(string[] inputIndcFunc, TerminalData hubData, TerminalData terminalData, TMP_Text textBoxCol1, TMP_Text textBoxCol2, TMP_Text warningPrompt)
     { 
         int powerChange;
 
@@ -226,6 +228,8 @@ public class TerminalFunctions
                                 if (powerChange <= 5)
                                 {
                                     hubData.cellPowerDraw[i] = powerChange;
+                                    warningPrompt.gameObject.SetActive(true);
+                                    warningPrompt.text = "sys" + sysNumber + " is now drawing " + powerChange + "kW/c";
                                     return;
                                 }
                                 else
@@ -236,6 +240,9 @@ public class TerminalFunctions
                                     textBoxCol1.text += "the power has been set to 5";
 
                                     hubData.cellPowerDraw[i] = 5;
+
+                                    warningPrompt.gameObject.SetActive(true);
+                                    warningPrompt.text = "sys" + sysNumber + " is now drawing " + powerChange + "kW/c";
                                     return;
                                 }
                             }

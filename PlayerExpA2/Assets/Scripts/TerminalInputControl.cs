@@ -13,6 +13,7 @@ public class TerminalInputControl : MonoBehaviour
     [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Text textBoxCol1;
     [SerializeField] TMP_Text textBoxCol2;
+    [SerializeField] TMP_Text warningPrompt;
 
     [SerializeField] string terminalName;
 
@@ -120,11 +121,11 @@ public class TerminalInputControl : MonoBehaviour
         //}
         else if (inputIndcFunc[0] == "link")
         {
-            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.LinkFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2, warningPrompt);
         }
         else if (inputIndcFunc[0] == "adjst")
         {
-            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2);
+            terminalFunctions.AdjustFunction(inputIndcFunc, hubTerminal, terminalData, textBoxCol1, textBoxCol2, warningPrompt);
         }
         else
         {

@@ -414,7 +414,7 @@ public class MechanismManager : MonoBehaviour
         }
         else
         {
-            warningText.gameObject.SetActive(false);
+            //warningText.gameObject.SetActive(false);
         }
     }
 }
