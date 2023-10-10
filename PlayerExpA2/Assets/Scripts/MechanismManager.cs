@@ -204,7 +204,7 @@ public class MechanismManager : MonoBehaviour
 
         if (shipPower <= 0) 
         {
-            SceneManager.LoadScene("LoseScreen");
+            //SceneManager.LoadScene("LoseScreen");
         }
     }
 
@@ -236,6 +236,7 @@ public class MechanismManager : MonoBehaviour
 
                 if (shipHealth <= 0)
                 {
+                    PlayerPrefs.SetString("LossState", "sheild");
                     SceneManager.LoadScene("LoseScreen");
                 }
             }
@@ -277,6 +278,7 @@ public class MechanismManager : MonoBehaviour
         else
         {
             oxygenQuality = 0;
+            PlayerPrefs.SetString("LossState", "oxygen");
             SceneManager.LoadScene("LoseScreen");
         }
     }
@@ -414,7 +416,7 @@ public class MechanismManager : MonoBehaviour
         }
         else
         {
-            warningText.gameObject.SetActive(false);
+            //warningText.gameObject.SetActive(false);
         }
     }
 }

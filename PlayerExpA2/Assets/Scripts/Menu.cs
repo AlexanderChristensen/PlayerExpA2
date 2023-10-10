@@ -89,4 +89,8 @@ public class Menu : MonoBehaviour
             menuOverlay.SetActive(false);
         }
     }
+    public void ResetPrefs()
+    {
+        PlayerPrefs.SetInt("playedTutorial", 0);
+    }
 }
