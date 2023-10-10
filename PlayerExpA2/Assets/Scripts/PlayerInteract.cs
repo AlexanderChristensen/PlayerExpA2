@@ -15,7 +15,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (objectsInRange.Count > 0)
             {
-                objectsInRange[0].gameObject.GetComponent<IInteractable>().Interact();
+                objectsInRange[objectsInRange.Count - 1].gameObject.GetComponent<IInteractable>().Interact();
             }
         }
 
