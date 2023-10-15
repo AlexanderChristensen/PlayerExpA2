@@ -14,6 +14,7 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float springStrength;
     [SerializeField] float damperStrength;
 
+
     [SerializeField] TMP_Text velocityText;
     [SerializeField] TMP_Text accelerationText;
 

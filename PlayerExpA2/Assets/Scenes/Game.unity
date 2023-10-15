@@ -7234,61 +7234,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1326587870}
     m_Modifications:
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.size3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.y.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.z.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6099006
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.6099
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.6099001
       objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36662,61 +36610,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1326587870}
     m_Modifications:
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.size3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.y.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.z.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6099005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.6098999
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.6099001
       objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -40583,61 +40479,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.size3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.y.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.z.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_RootOrder
       value: 88
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6099005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.6099
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.6099001
       objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -40873,61 +40717,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1326587870}
     m_Modifications:
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.size3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.y.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.z.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6099006
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.6098999
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.6099
       objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50686,8 +50478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3d4b1cc5099804bb8cd32b09be7e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 800
-  sensY: 800
+  sensX: 500
+  sensY: 500
   orientation: {fileID: 1681014462}
   player: {fileID: 23356833}
 --- !u!114 &1935391043
@@ -51115,61 +50907,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1326587870}
     m_Modifications:
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.size3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.scalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.separateAxes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.y.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.z.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: SizeModule.curve.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6099005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.6099
-      objectReference: {fileID: 0}
-    - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.6099002
       objectReference: {fileID: 0}
     - target: {fileID: 8627162317099348680, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
       propertyPath: m_LocalPosition.x

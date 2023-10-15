@@ -550,6 +550,7 @@ MonoBehaviour:
   accelerationText: {fileID: 1737781710}
   grapplePointModel: {fileID: 1078613890628425019, guid: f316bbe739996f6499a9d2b817635a72, type: 3}
   velocitySampleFrequency: 0.2
+  grappleParticles: {fileID: 2736866037056956149, guid: 9979e2941fd3d9b4ca9196296ba53fd8, type: 3}
   canMove: 0
   acceleration: 0
   velocity: 0
