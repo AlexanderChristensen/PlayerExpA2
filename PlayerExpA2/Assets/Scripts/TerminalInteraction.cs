@@ -52,7 +52,6 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
                 openPanelCanvas.SetActive(false);
                 closing = false;
                 terminalActive = false;
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/Exit");
             }
 
             if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose"))
@@ -90,5 +89,7 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
         Time.timeScale = 1;
 
         openPanel.SetBool("Close", true);
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/Exit");
     }
 }

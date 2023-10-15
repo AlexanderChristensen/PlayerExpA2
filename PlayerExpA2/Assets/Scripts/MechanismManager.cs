@@ -223,6 +223,8 @@ public class MechanismManager : MonoBehaviour
                 sheilds -= damageTakenThisCycle;
 
                 camShake.ShakeCamera(5f, 0.2f);
+
+                FMODUnity.RuntimeManager.PlayOneShot("event:/AmbientShip/AsteroidHit");
                  
                 if (sheilds < 0)
                 {
