@@ -44,13 +44,15 @@ public class TerminalInteraction : MonoBehaviour, IInteractable
             {
                 Time.timeScale = 0;
                 openeing = false;
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/SignIn");
             }
 
-                if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && closing)
+            if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("EmptyState") && closing)
             {
                 openPanelCanvas.SetActive(false);
                 closing = false;
                 terminalActive = false;
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/Exit");
             }
 
             if (openPanel.GetCurrentAnimatorStateInfo(0).IsName("PanelClose"))

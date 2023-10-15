@@ -109,6 +109,8 @@ public class TerminalFunctions
                                         hubData.batteryCells[cellNumber] = "system " + systemNumber;
                                         warningPrompt.gameObject.SetActive(true);
                                         warningPrompt.text = "sys" + systemNumber + " connected to cell " + cellNumber;
+
+                                        FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/Linked");
                                         return;
                                     }
                                     else
@@ -230,6 +232,7 @@ public class TerminalFunctions
                                     hubData.cellPowerDraw[i] = powerChange;
                                     warningPrompt.gameObject.SetActive(true);
                                     warningPrompt.text = "sys" + sysNumber + " is now drawing " + powerChange + "kW/c";
+                                    FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/Adjusted");
                                     return;
                                 }
                                 else

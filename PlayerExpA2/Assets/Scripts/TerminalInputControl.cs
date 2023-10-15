@@ -48,6 +48,7 @@ public class TerminalInputControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) && terminalInteraction.interacting)
         {
             SubmitText();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/EnterBlip");
         }
 
         CheckIfOnline();

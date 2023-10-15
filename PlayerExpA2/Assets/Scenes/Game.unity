@@ -49227,8 +49227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3d4b1cc5099804bb8cd32b09be7e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 200
-  sensY: 200
+  sensX: 800
+  sensY: 800
   orientation: {fileID: 1681014462}
   player: {fileID: 23356833}
 --- !u!114 &1935391043
@@ -52173,7 +52173,7 @@ MonoBehaviour:
   minFrequency: 8
   maxFrequency: 4
   frequencyDeviation: 1
-  oxygenFilteringMultiplier: 1
+  oxygenFilteringMultiplier: 1.5
   oxygenLossPerCycle: 2
   oxygenLossPassive: 0.2
   velocitySampleRate: 1
