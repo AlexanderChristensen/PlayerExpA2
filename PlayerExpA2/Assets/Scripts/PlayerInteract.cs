@@ -7,7 +7,7 @@ public class PlayerInteract : MonoBehaviour
 {
     List<GameObject> objectsInRange = new List<GameObject>();
 
-    [SerializeField] TMP_Text interactText;
+    [SerializeField] GameObject interactText;
 
     void Update()
     {

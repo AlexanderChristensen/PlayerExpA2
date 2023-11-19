@@ -25,6 +25,8 @@ public class MenuTerminal : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SubmitText();
+
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Terminal/EnterBlip");
         }
     }
 

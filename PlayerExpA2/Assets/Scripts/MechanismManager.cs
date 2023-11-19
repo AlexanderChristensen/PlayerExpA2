@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class MechanismManager : MonoBehaviour
 {
+    [SerializeField] List<GameObject> warningSoundEmitters = new List<GameObject>();
+
     [Header ("Mechanism Totals")]
     public float shipPowerTotal;
     public float oxygenQualityTotal;
@@ -119,7 +121,6 @@ public class MechanismManager : MonoBehaviour
 
     void Update()
     {
-
         foreach (GameObject terminal in terminals)
         {
             if (terminal.name == oxygenFilterTerminalName)
@@ -223,6 +224,8 @@ public class MechanismManager : MonoBehaviour
                 sheilds -= damageTakenThisCycle;
 
                 camShake.ShakeCamera(5f, 0.2f);
+
+                FMODUnity.RuntimeManager.PlayOneShot("event:/AmbientShip/AsteroidHit");
                  
                 if (sheilds < 0)
                 {
@@ -390,6 +393,7 @@ public class MechanismManager : MonoBehaviour
     {
         if (sheilds < sheildsTotal/4)
         {
+            warningSoundEmitters[1].SetActive(true);
             if (oxygenQuality < oxygenQualityTotal / 4)
             {
                 if (oxygenQuality/oxygenQualityTotal < sheilds/sheildsTotal)
@@ -413,10 +417,15 @@ public class MechanismManager : MonoBehaviour
         {
             warningText.gameObject.SetActive(true);
             warningText.text = "WARNING! oxygen quality is low";
+
+            warningSoundEmitters[0].SetActive(true);
         }
         else
         {
             //warningText.gameObject.SetActive(false);
+
+            warningSoundEmitters[0].SetActive(false);
+            warningSoundEmitters[1].SetActive(false);
         }
     }
 }
