@@ -14,6 +14,7 @@ public class GrappleMovement : MonoBehaviour
     [SerializeField] float springStrength;
     [SerializeField] float damperStrength;
 
+
     [SerializeField] TMP_Text velocityText;
     [SerializeField] TMP_Text accelerationText;
 
@@ -40,6 +41,10 @@ public class GrappleMovement : MonoBehaviour
 
     float velocitySampleTimer;
 
+    FMOD.Studio.EventInstance zipSound;
+
+    bool playingZip;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -59,6 +64,7 @@ public class GrappleMovement : MonoBehaviour
                 if (!grappling)
                 {
                     CastRay();
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/PlayerSounds/GrappleFire");
                 }
             }
 
@@ -76,6 +82,15 @@ public class GrappleMovement : MonoBehaviour
             else if (Input.GetMouseButtonUp(1))
             {
                 zipping = false;
+
+                if (playingZip)
+                {
+                    zipSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                    zipSound.release();
+
+                    playingZip = false;
+                }
+
             }
 
             if (grappling)
@@ -98,6 +113,15 @@ public class GrappleMovement : MonoBehaviour
             float appliedPullForce = Mathf.Lerp(0, pullForce, pullAcceleration);
 
             rb.AddForce((grapplePointDirection - transform.position).normalized * appliedPullForce);
+
+            if (!playingZip)
+            {
+                zipSound = FMODUnity.RuntimeManager.CreateInstance("event:/PlayerSounds/Zip");
+                zipSound.start();
+
+                playingZip = true;
+            }
+
         }
 
         acceleration = Mathf.Abs((rb.velocity.magnitude - lastTickVelocity) / Time.fixedDeltaTime);

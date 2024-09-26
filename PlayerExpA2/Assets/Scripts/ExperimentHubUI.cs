@@ -12,7 +12,8 @@ public class ExperimentHubUI : MonoBehaviour
     [SerializeField] List<Sprite> diagramSprites = new List<Sprite>();
 
     [SerializeField] TMP_Text currentWattage;
-    [SerializeField] TMP_Text optimalWattage;
+
+    [SerializeField] List<TMP_Text> optimalWattage = new List<TMP_Text>();
 
     void Update()
     {
@@ -41,6 +42,10 @@ public class ExperimentHubUI : MonoBehaviour
         }
 
         currentWattage.text = "current: " + mechanismManager.experimentDraw;
-        optimalWattage.text = "optimal: " + mechanismManager.experimentOptimalRange;
+
+        foreach (var textObj in optimalWattage)
+        {
+            textObj.text = "optimal: " + mechanismManager.experimentOptimalRange;
+        }
     }
 }
